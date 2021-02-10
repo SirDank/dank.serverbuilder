@@ -44,11 +44,6 @@ curl -o C:\DankServerBuilder\server-icon.png -s -L "https://www.dropbox.com/s/pm
 echo "-----> Done!"
 
 echo.
-echo "-----> Starting Paper.jar... "
-start paper.jar
-echo "-----> Done!"
-
-echo.
 echo "-----> Downloading Ngrok... "
 curl -o C:\DankServerBuilder\ngrok.zip -s -L "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-amd64.zip"
 echo "-----> Done!"
@@ -56,6 +51,11 @@ echo "-----> Done!"
 echo.
 echo "-----> Unzipping Ngrok... "
 powershell.exe -Command "Expand-Archive -Force -Path ngrok.zip -DestinationPath C:\DankServerBuilder"
+echo "-----> Done!"
+
+echo.
+echo "-----> Starting Paper.jar... "
+start paper.jar
 echo "-----> Done!"
 
 echo.
