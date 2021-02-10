@@ -39,18 +39,24 @@ explorer.exe C:\DankServerBuilder
 echo.
 echo "-----> Downloading Paper %minecraft_version%... "
 for /f "delims=" %%a in ('powershell.exe -Command "Invoke-WebRequest https://papermc.io/api/v2/projects/paper/versions/$env:minecraft_version | ConvertFrom-Json | Select -expand builds"') do set build=%%a
-curl -o C:\DankServerBuilder\paper.jar -s -L https://papermc.io/api/v2/projects/paper/versions/%minecraft_version%/builds/%build%/downloads/paper-%minecraft_version%-%build%.jar
-curl -o C:\DankServerBuilder\server-icon.png -s -L "https://www.dropbox.com/s/pmyapxkwoqxjgm6/server-icon.png?dl=1"
+set downloadurl=https://www.dropbox.com/s/pmyapxkwoqxjgm6/server-icon.png?dl=1
+set downloadpath=C:\DankServerBuilder\server-icon.png
+powershell.exe -Command "Start-BitsTransfer -Source '%downloadurl%' -Destination '%downloadpath%' -TransferType Download" >nul 2>nul
+set downloadurl=https://papermc.io/api/v2/projects/paper/versions/%minecraft_version%/builds/%build%/downloads/paper-%minecraft_version%-%build%.jar
+set downloadpath=C:\DankServerBuilder\paper.jar
+powershell.exe -Command "Start-BitsTransfer -Source '%downloadurl%' -Destination '%downloadpath%' -TransferType Download" >nul 2>nul
 echo "-----> Done!"
 
 echo.
 echo "-----> Downloading Ngrok... "
-curl -o C:\DankServerBuilder\ngrok.zip -s -L "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-amd64.zip"
+set downloadurl=https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-amd64.zip
+set downloadpath=C:\DankServerBuilder\ngrok.zip
+powershell.exe -Command "Start-BitsTransfer -Source '%downloadurl%' -Destination '%downloadpath%' -TransferType Download" >nul 2>nul
 echo "-----> Done!"
 
 echo.
 echo "-----> Unzipping Ngrok... "
-powershell.exe -Command "Expand-Archive -Force -Path ngrok.zip -DestinationPath C:\DankServerBuilder"
+powershell.exe -Command "Expand-Archive -Force -Path ngrok.zip -DestinationPath C:\DankServerBuilder" >nul 2>nul
 echo "-----> Done!"
 
 echo.
@@ -60,30 +66,32 @@ echo "-----> Done!"
 
 echo.
 echo "-----> Downloading EssentialsX... "
-curl -o C:\DankServerBuilder\jars.zip -s -L "https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/artifact/jars/*zip*/jars.zip"
+curl -o C:\DankServerBuilder\jars.zip -s -L "https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/artifact/jars/*zip*/jars.zip" >nul 2>nul
 echo "-----> Done!"
 
 echo.
 echo "-----> Unzipping EssentialsX... "
-powershell.exe -Command "Expand-Archive -Force -Path jars.zip -DestinationPath C:\DankServerBuilder"
+powershell.exe -Command "Expand-Archive -Force -Path jars.zip -DestinationPath C:\DankServerBuilder" >nul 2>nul
 echo timeout /t 3 /nobreak > NUL
-ren jars plugins
+ren jars plugins >nul 2>nul
 echo "-----> Done!"
 
 echo.
 echo "-----> Cleaning Zips... "
-del /f ngrok.zip
-del /f jars.zip
+del /f ngrok.zip >nul 2>nul
+del /f jars.zip >nul 2>nul
 echo "-----> Done!"
 
 echo.
 echo "-----> Downloading ProtocolLib... "
-curl -o C:\DankServerBuilder\plugins\ProtocolLib.jar -s -L "https://ci.dmulloy2.net/job/ProtocolLib/lastSuccessfulBuild/artifact/target/ProtocolLib.jar"
+set downloadurl=https://ci.dmulloy2.net/job/ProtocolLib/lastSuccessfulBuild/artifact/target/ProtocolLib.jar
+set downloadpath=C:\DankServerBuilder\plugins\ProtocolLib.jar
+powershell.exe -Command "Start-BitsTransfer -Source '%downloadurl%' -Destination '%downloadpath%' -TransferType Download" >nul 2>nul
 echo "-----> Done!"
 
 echo.
 echo "-----> Downloading ClearLagg... "
-curl -o C:\DankServerBuilder\plugins\Clearlagg.jar -s -L "https://dev.bukkit.org/projects/clearlagg/files/latest"
+curl -o C:\DankServerBuilder\plugins\Clearlagg.jar -s -L "https://dev.bukkit.org/projects/clearlagg/files/latest" >nul 2>nul
 echo "-----> Done!"
 
 echo.
@@ -111,7 +119,7 @@ echo "-----> Creating start.bat... "
 (
     echo @echo off
     echo color 0a
-	echo start ngrok.bat
+    echo start ngrok.bat
     echo java -Xms%ram%M -Xmx%ram%M -jar paper.jar -nogui
     echo pause
 ) >start.bat
@@ -124,29 +132,29 @@ echo "-----> Done!"
 
 echo.
 echo "==========< Configuration Complete >=========="
-color 09
-color 0b
-color 0c
-color 0d
-color 0e
-color 0a
-color 09
-color 0b
-color 0c
-color 0d
-color 0e
-color 0a
-color 09
-color 0b
-color 0c
-color 0d
-color 0e
-color 0a
 echo.
 echo To start your server, run start.bat
 echo Your servers IP is shown in the ngrok window, it looks something like this
 echo "-----> 0.tcp.ngrok.io:00000 < last 5 digits will be random"
-echo timeout /t 5 /nobreak > NUL
+color 09
+color 0b
+color 0c
+color 0d
+color 0e
+color 0a
+color 09
+color 0b
+color 0c
+color 0d
+color 0e
+color 0a
+color 09
+color 0b
+color 0c
+color 0d
+color 0e
+color 0a
+echo timeout /t 10 /nobreak > NUL
 powershell.exe -Command "Start-Process https://allmylinks.com/sir-dankenstein"
 
 echo.
