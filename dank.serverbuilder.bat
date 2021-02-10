@@ -82,7 +82,7 @@ curl -o C:\DankServerBuilder\plugins\ProtocolLib.jar -s -L "https://ci.dmulloy2.
 echo "-----> Done!"
 
 echo.
-echo "-----> Downloading Installing ClearLagg... "
+echo "-----> Downloading ClearLagg... "
 curl -o C:\DankServerBuilder\plugins\Clearlagg.jar -s -L "https://dev.bukkit.org/projects/clearlagg/files/latest"
 echo "-----> Done!"
 
@@ -118,6 +118,11 @@ echo "-----> Creating start.bat... "
 echo "-----> Done!"
 
 echo.
+echo "-----> Accepting Minecraft EULA... "
+powershell.exe -Command "((Get-Content eula.txt -Raw) -replace 'false','true') | Set-Content eula.txt"
+echo "-----> Done!"
+
+echo.
 echo "==========< Configuration Complete >=========="
 color 09
 color 0b
@@ -138,7 +143,6 @@ color 0d
 color 0e
 color 0a
 echo.
-echo You still have to manually accept EULA x)
 echo To start your server, run start.bat
 echo Your servers IP is shown in the ngrok window, it looks something like this
 echo "-----> 0.tcp.ngrok.io:00000 < last 5 digits will be random"
