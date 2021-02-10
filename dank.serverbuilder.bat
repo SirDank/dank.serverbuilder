@@ -66,7 +66,7 @@ echo "-----> Done!"
 echo.
 echo "-----> Unzipping EssentialsX... "
 powershell.exe -Command "Expand-Archive -Force -Path jars.zip -DestinationPath C:\DankServerBuilder"
-echo timeout /t 5 /nobreak > NUL
+echo timeout /t 3 /nobreak > NUL
 ren jars plugins
 echo "-----> Done!"
 
@@ -134,10 +134,11 @@ color 0d
 color 0e
 color 0a
 echo.
-echo "To start your server, run start.bat"
-echo "You still have to manually accept EULA x)"
-echo "Your servers IP is shown in the ngrok window, it looks something like this"
+echo You still have to manually accept EULA x)
+echo To start your server, run start.bat
+echo Your servers IP is shown in the ngrok window, it looks something like this
 echo "-----> 0.tcp.ngrok.io:00000 < last 5 digits will be random"
+echo timeout /t 5 /nobreak > NUL
 powershell.exe -Command "Start-Process https://allmylinks.com/sir-dankenstein"
 
 echo.
