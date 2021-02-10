@@ -89,9 +89,12 @@ echo "-----> Done!"
 echo.
 echo "-----> Opening ngrok.com... "
 echo "Go to Authentication > Your Authtoken and click copy, then paste it here."
+echo.
 powershell.exe -Command "Start-Process https://dashboard.ngrok.com/auth/your-authtoken"
 set /P auth=Ngrok AuthToken: 
+echo.
 ngrok.exe authtoken %auth%
+echo.
 echo "-----> Saved!"
 
 echo.
