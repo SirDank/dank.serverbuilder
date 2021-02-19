@@ -106,23 +106,33 @@ echo.
 echo "-----> Saved!"
 
 echo.
-echo "-----> Creating ngrok.bat... "
+echo "-----> Creating start_only_ngrok.bat... "
 (
     echo @echo off
     echo ngrok tcp 25565
     echo pause
-) >ngrok.bat
+) >start_only_ngrok.bat
 echo "-----> Done!"
 
 echo.
-echo "-----> Creating start.bat... "
+echo "-----> Creating start_only_server.bat... "
 (
     echo @echo off
     echo color 0a
-    echo start ngrok.bat
     echo java -Xms%ram%M -Xmx%ram%M -jar paper.jar -nogui
     echo pause
-) >start.bat
+) >start_only_server.bat
+echo "-----> Done!"
+
+echo.
+echo "-----> Creating start_server_and_ngrok.bat... "
+(
+    echo @echo off
+    echo color 0a
+    echo start start_only_ngrok.bat
+    echo java -Xms%ram%M -Xmx%ram%M -jar paper.jar -nogui
+    echo pause
+) >start_server_and_ngrok.bat
 echo "-----> Done!"
 
 echo.
@@ -133,7 +143,7 @@ echo "-----> Done!"
 echo.
 echo "==========< Configuration Complete >=========="
 echo.
-echo To start your server, run start.bat
+echo To start your server, run start_server_and_ngrok.bat
 echo Your servers IP is shown in the ngrok window, it looks something like this
 echo "-----> 0.tcp.ngrok.io:00000 < last 5 digits will be random"
 color 09
