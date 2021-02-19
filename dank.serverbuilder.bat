@@ -48,6 +48,12 @@ powershell.exe -Command "Start-BitsTransfer -Source '%downloadurl%' -Destination
 echo "-----> Done!"
 
 echo.
+echo "-----> Starting Paper.jar... "
+echo timeout /t 5 /nobreak > NUL
+start paper.jar
+echo "-----> Done!"
+
+echo.
 echo "-----> Downloading Ngrok... "
 set downloadurl=https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-amd64.zip
 set downloadpath=C:\DankServerBuilder\ngrok.zip
@@ -57,11 +63,6 @@ echo "-----> Done!"
 echo.
 echo "-----> Unzipping Ngrok... "
 powershell.exe -Command "Expand-Archive -Force -Path ngrok.zip -DestinationPath C:\DankServerBuilder" >nul 2>nul
-echo "-----> Done!"
-
-echo.
-echo "-----> Starting Paper.jar... "
-start paper.jar
 echo "-----> Done!"
 
 echo.
