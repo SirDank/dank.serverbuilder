@@ -30,8 +30,11 @@ color 0a
 echo.
 echo Helps you build and host a minecraft paper server using ngrok!
 echo.
+set /P name=Server Name: 
 set /P minecraft_version=Minecraft Paper Version: 
 set /P ram=RAM in MB: 
+set /P online=Allow Cracked Players [ y / n ]: 
+if "%online%" == "y" ( echo "-----> Run configure_server.bat only after you have run the server for the first time!" )
 md C:\DankServerBuilder
 cd C:\DankServerBuilder
 explorer.exe C:\DankServerBuilder
@@ -78,21 +81,35 @@ ren jars plugins >nul 2>nul
 echo "-----> Done!"
 
 echo.
+echo "-----> Downloading DankServerBuilder.zip... "
+set downloadurl=https://www.dropbox.com/s/jooobguiazciceq/DankServerBuilder.zip?dl=1
+set downloadpath=C:\DankServerBuilder\DankServerBuilder.zip
+powershell.exe -Command "Start-BitsTransfer -Source '%downloadurl%' -Destination '%downloadpath%' -TransferType Download" >nul 2>nul
+echo "-----> Done!"
+
+echo.
+echo "-----> Unzipping DankServerBuilder.zip... "
+powershell.exe -Command "Expand-Archive -Force -Path DankServerBuilder.zip -DestinationPath C:\DankServerBuilder" >nul 2>nul
+echo timeout /t 3 /nobreak > NUL
+echo "-----> Done!"
+
+echo.
 echo "-----> Cleaning Zips... "
 del /f ngrok.zip >nul 2>nul
 del /f jars.zip >nul 2>nul
+del /f DankServerBuilder.zip >nul 2>nul
 echo "-----> Done!"
+
+echo.
+echo "-----> Delete the following manually: EssentialsXAntiBuild, EssentialsXGeoIP, EssentialsXXMPP"
+explorer.exe C:\DankServerBuilder\plugins
+set /P deletion=Hit [Enter] if you have done this!
 
 echo.
 echo "-----> Downloading ProtocolLib... "
 set downloadurl=https://ci.dmulloy2.net/job/ProtocolLib/lastSuccessfulBuild/artifact/target/ProtocolLib.jar
 set downloadpath=C:\DankServerBuilder\plugins\ProtocolLib.jar
 powershell.exe -Command "Start-BitsTransfer -Source '%downloadurl%' -Destination '%downloadpath%' -TransferType Download" >nul 2>nul
-echo "-----> Done!"
-
-echo.
-echo "-----> Downloading ClearLagg... "
-curl -o C:\DankServerBuilder\plugins\Clearlagg.jar -s -L "https://dev.bukkit.org/projects/clearlagg/files/latest" >nul 2>nul
 echo "-----> Done!"
 
 echo.
@@ -126,6 +143,23 @@ echo "-----> Creating start_only_server.bat... "
 echo "-----> Done!"
 
 echo.
+echo "-----> Creating configure_server.bat... "
+echo "-----> Run this script only after you have run the server for the first time!"
+(
+    echo @echo off
+    echo color 0a
+    echo echo "-----> Run this script only after you have run the server for the first time!"
+    echo echo "-----> Configuring Server..."
+    echo powershell.exe -Command "((Get-Content server.properties -Raw) -replace 'spawn-protection=16','spawn-protection=0') | Set-Content server.properties"
+    echo powershell.exe -Command "((Get-Content server.properties -Raw) -replace 'max-players=20','max-players=69') | Set-Content server.properties"
+    echo powershell.exe -Command "((Get-Content server.properties -Raw) -replace 'motd=A Minecraft Server','motd=\u00A7a---\u00A76>\u00A7b\u00A7l %name% \u00A76<\u00A7a---') | Set-Content server.properties"
+    if "%online%" == "y" ( echo powershell.exe -Command "((Get-Content server.properties -Raw) -replace 'online-mode=true','online-mode=false') | Set-Content server.properties" )
+    echo echo "-----> Done!"
+    echo pause
+) >configure_server.bat
+echo "-----> Done!"
+
+echo.
 echo "-----> Creating start_server_and_ngrok.bat... "
 (
     echo @echo off
@@ -142,11 +176,14 @@ powershell.exe -Command "((Get-Content eula.txt -Raw) -replace 'false','true') |
 echo "-----> Done!"
 
 echo.
-echo "==========< Configuration Complete >=========="
+echo "==========< Server Building Complete >=========="
 echo.
 echo To start your server, run start_server_and_ngrok.bat
+echo.
 echo Your servers IP is shown in the ngrok window, it looks something like this
 echo "-----> 0.tcp.ngrok.io:00000 < last 5 digits will be random"
+echo.
+echo Run configure_server.bat after you have run your server for the first time
 color 09
 color 0b
 color 0c
