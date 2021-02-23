@@ -35,6 +35,7 @@ set /P minecraft_version=Minecraft Paper Version:
 set /P ram=RAM in MB: 
 set /P online=Allow Cracked Players [ y / n ]: 
 if "%online%" == "y" ( echo "-----> Run configure_server.bat only after you have run the server for the first time!" )
+
 md C:\DankServerBuilder
 cd C:\DankServerBuilder
 explorer.exe C:\DankServerBuilder
@@ -55,6 +56,12 @@ echo "-----> Starting Paper.jar... "
 echo timeout /t 5 /nobreak > NUL
 start paper.jar
 echo "-----> Done!"
+
+echo.
+echo "-----> Please manually download and install JDK... "
+echo "-----> You could skip this... "
+powershell.exe -Command "Start-Process https://www.oracle.com/in/java/technologies/javase-downloads.html"
+set /P done=Hit [ENTER] to continue...
 
 echo.
 echo "-----> Downloading Ngrok... "
@@ -103,7 +110,7 @@ echo "-----> Done!"
 echo.
 echo "-----> Delete the following manually: EssentialsXAntiBuild, EssentialsXGeoIP, EssentialsXXMPP"
 explorer.exe C:\DankServerBuilder\plugins
-set /P deletion=Hit [Enter] if you have done this!
+set /P done=Hit [ENTER] to continue...
 
 echo.
 echo "-----> Downloading ProtocolLib... "
