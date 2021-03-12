@@ -191,6 +191,31 @@ echo Your servers IP is shown in the ngrok window, it looks something like this
 echo "-----> 0.tcp.ngrok.io:00000 < last 5 digits will be random"
 echo.
 echo Run configure_server.bat after you have run your server for the first time
+echo.
+echo "               /-/                \-\               "
+echo "             -- /                  \ --             "
+echo "            /  /                    \  \            "
+echo "        \  /  --\                  \--  \  /        "
+echo "        |\-      --   |---\      --      -/|        "
+echo "        \ -      /-  /     ----  \       - /        "
+echo "        --      -   /         |   -      --         "
+echo "         -      /   | +    +  /   \      -          "
+echo "       -/      |   /-        |     |      \-        "
+echo "      /        /     \-      /  /  \        \       "
+echo "     /        /   -\   \    | /-    \        \      "
+echo "   -/        /      --\      /       \        \-    "
+echo "  /         |          --  /-         |         \   "
+echo "  |         /           | -           \         |   "
+echo "  \      --|            | |            |--      /   "
+echo "   | ---/               | |               \--- |    "
+echo "   |/                   | |                   \|    "
+echo "   ________.__      ________                 __     "
+echo "  /   _____|________\______ \ _____    ____ |  | __ "
+echo "  \_____  \|  \_  __ |    |  \\__  \  /    \|  |/ / "
+echo "  /        |  ||  | \|    `   \/ __ \|   |  |    <  "
+echo " /_______  |__||__| /_______  (____  |___|  |__|_ \ "
+echo "         \/                 \/     \/     \/     \/ "
+echo.
 color 09
 color 0b
 color 0c
