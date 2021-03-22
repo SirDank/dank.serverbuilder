@@ -1,5 +1,8 @@
 # Dank.ServerBuilder
-Builds and host a minecraft survival server using ngrok!
+Builds and host a minecraft survival server instantly using ngrok!
+
+Requirements:
+- Free account on https://ngrok.com/
 
 Steps:
 - There are none, the script is very simple to use and all steps to be taken have been written in the script
