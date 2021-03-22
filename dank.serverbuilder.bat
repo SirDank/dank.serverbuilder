@@ -33,15 +33,16 @@ echo.
 set /P name=Server Name: 
 set /P minecraft_version=Minecraft Paper Version: 
 set /P ram=RAM in MB: 
-set /P online=Allow Cracked Players [ y / n ]: 
-if "%online%" == "y" ( echo "-----> Run configure_server.bat only after you have run the server for the first time!" )
+set /P offline=Allow Cracked Players [ y / n ]: 
+if "%offline%" == "y" ( echo "-----> Run configure_server.bat only after you have run the server for the first time!" )
 
 md C:\DankServerBuilder
 cd C:\DankServerBuilder
+md C:\DankServerBuilder\plugins
 explorer.exe C:\DankServerBuilder
 
 echo.
-echo "-----> Downloading Paper %minecraft_version%... "
+echo "-----> Downloading Minecraft [Paper] %minecraft_version%... "
 for /f "delims=" %%a in ('powershell.exe -Command "Invoke-WebRequest https://papermc.io/api/v2/projects/paper/versions/$env:minecraft_version | ConvertFrom-Json | Select -expand builds"') do set build=%%a
 set downloadurl=https://www.dropbox.com/s/pmyapxkwoqxjgm6/server-icon.png?dl=1
 set downloadpath=C:\DankServerBuilder\server-icon.png
@@ -58,33 +59,75 @@ start paper.jar
 echo "-----> Done!"
 
 echo.
-echo "-----> Please manually download and install JDK... "
-echo "-----> You could skip this... "
+echo "-----> Please manually download and install Java Development Kit... "
+echo "-----> Click on JDK Download, Scroll down and download the [ Windows x64 Installer ]... "
+echo "-----> You could skip this if the server version is 1.16.5 or below... "
 powershell.exe -Command "Start-Process https://www.oracle.com/in/java/technologies/javase-downloads.html"
 set /P done=Hit [ENTER] to continue...
 
 echo.
-echo "-----> Downloading Ngrok... "
+echo "-----> Downloading Ngrok.zip... "
 set downloadurl=https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-amd64.zip
 set downloadpath=C:\DankServerBuilder\ngrok.zip
 powershell.exe -Command "Start-BitsTransfer -Source '%downloadurl%' -Destination '%downloadpath%' -TransferType Download" >nul 2>nul
 echo "-----> Done!"
 
 echo.
-echo "-----> Unzipping Ngrok... "
+echo "-----> Unzipping Ngrok.zip... "
 powershell.exe -Command "Expand-Archive -Force -Path ngrok.zip -DestinationPath C:\DankServerBuilder" >nul 2>nul
 echo "-----> Done!"
 
 echo.
-echo "-----> Downloading EssentialsX... "
-curl -o C:\DankServerBuilder\jars.zip -s -L "https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/artifact/jars/*zip*/jars.zip" >nul 2>nul
+echo "-----> Downloading Plugin [EssentialsX]... "
+for /f "delims=" %%a in ('powershell.exe -Command "(Invoke-WebRequest "https://api.github.com/repos/EssentialsX/Essentials/releases" | ConvertFrom-Json)[0].tag_name"') do set build=%%a
+set downloadurl=https://github.com/EssentialsX/Essentials/releases/download/%build%/EssentialsX-%build%.0.jar
+set downloadpath=C:\DankServerBuilder\plugins\EssentialsX-%build%.jar
+powershell.exe -Command "Start-BitsTransfer -Source '%downloadurl%' -Destination '%downloadpath%' -TransferType Download" >nul 2>nul
 echo "-----> Done!"
 
 echo.
-echo "-----> Unzipping EssentialsX... "
-powershell.exe -Command "Expand-Archive -Force -Path jars.zip -DestinationPath C:\DankServerBuilder" >nul 2>nul
-echo timeout /t 3 /nobreak > NUL
-ren jars plugins >nul 2>nul
+echo "-----> Downloading Plugin [EssentialsXChat]... "
+set downloadurl=https://github.com/EssentialsX/Essentials/releases/download/%build%/EssentialsXChat-%build%.0.jar
+set downloadpath=C:\DankServerBuilder\plugins\EssentialsXChat-%build%.jar
+powershell.exe -Command "Start-BitsTransfer -Source '%downloadurl%' -Destination '%downloadpath%' -TransferType Download" >nul 2>nul
+echo "-----> Done!"
+
+echo.
+echo "-----> Downloading Plugin [EssentialsXSpawn]... "
+set downloadurl=https://github.com/EssentialsX/Essentials/releases/download/%build%/EssentialsXSpawn-%build%.0.jar
+set downloadpath=C:\DankServerBuilder\plugins\EssentialsXSpawn-%build%.jar
+powershell.exe -Command "Start-BitsTransfer -Source '%downloadurl%' -Destination '%downloadpath%' -TransferType Download" >nul 2>nul
+echo "-----> Done!"
+
+echo.
+echo "-----> Downloading Plugin [ProtocolLib]... "
+set downloadurl=https://ci.dmulloy2.net/job/ProtocolLib/lastSuccessfulBuild/artifact/target/ProtocolLib.jar
+set downloadpath=C:\DankServerBuilder\plugins\ProtocolLib.jar
+powershell.exe -Command "Start-BitsTransfer -Source '%downloadurl%' -Destination '%downloadpath%' -TransferType Download" >nul 2>nul
+echo "-----> Done!"
+
+echo.
+echo "-----> Downloading Plugin [TAB]... "
+for /f "delims=" %%a in ('powershell.exe -Command "(Invoke-WebRequest "https://api.github.com/repos/NEZNAMY/TAB/releases" | ConvertFrom-Json)[0].tag_name"') do set build=%%a
+set downloadurl=https://github.com/NEZNAMY/TAB/releases/download/%build%/TAB-%build%.jar
+set downloadpath=C:\DankServerBuilder\plugins\TAB-%build%.jar
+powershell.exe -Command "Start-BitsTransfer -Source '%downloadurl%' -Destination '%downloadpath%' -TransferType Download" >nul 2>nul
+echo "-----> Done!"
+
+echo.
+echo "-----> Downloading Plugin [BetterSleeping]... "
+for /f "delims=" %%a in ('powershell.exe -Command "(Invoke-WebRequest "https://api.github.com/repos/Nuytemans-Dieter/BetterSleeping/releases" | ConvertFrom-Json)[0].tag_name"') do set build=%%a
+set downloadurl=https://github.com/Nuytemans-Dieter/BetterSleeping/releases/download/%build%/BetterSleeping.jar
+set downloadpath=C:\DankServerBuilder\plugins\BetterSleeping-%build%.jar
+powershell.exe -Command "Start-BitsTransfer -Source '%downloadurl%' -Destination '%downloadpath%' -TransferType Download" >nul 2>nul
+echo "-----> Done!"
+
+echo.
+echo "-----> Downloading Plugin [ActionHealth]... "
+for /f "delims=" %%a in ('powershell.exe -Command "(Invoke-WebRequest "https://api.github.com/repos/zeshan321/ActionHealth/releases" | ConvertFrom-Json)[0].tag_name"') do set build=%%a
+set downloadurl=https://github.com/zeshan321/ActionHealth/releases/download/%build%/ActionHealth.jar
+set downloadpath=C:\DankServerBuilder\plugins\ActionHealth-%build%.jar
+powershell.exe -Command "Start-BitsTransfer -Source '%downloadurl%' -Destination '%downloadpath%' -TransferType Download" >nul 2>nul
 echo "-----> Done!"
 
 echo.
@@ -103,20 +146,7 @@ echo "-----> Done!"
 echo.
 echo "-----> Cleaning Zips... "
 del /f ngrok.zip >nul 2>nul
-del /f jars.zip >nul 2>nul
 del /f DankServerBuilder.zip >nul 2>nul
-echo "-----> Done!"
-
-echo.
-echo "-----> Delete the following manually: EssentialsXAntiBuild, EssentialsXGeoIP, EssentialsXXMPP"
-explorer.exe C:\DankServerBuilder\plugins
-set /P done=Hit [ENTER] to continue...
-
-echo.
-echo "-----> Downloading ProtocolLib... "
-set downloadurl=https://ci.dmulloy2.net/job/ProtocolLib/lastSuccessfulBuild/artifact/target/ProtocolLib.jar
-set downloadpath=C:\DankServerBuilder\plugins\ProtocolLib.jar
-powershell.exe -Command "Start-BitsTransfer -Source '%downloadurl%' -Destination '%downloadpath%' -TransferType Download" >nul 2>nul
 echo "-----> Done!"
 
 echo.
@@ -128,7 +158,24 @@ set /P auth=Ngrok AuthToken:
 echo.
 ngrok.exe authtoken %auth%
 echo.
-echo "-----> Saved!"
+echo "-----> AuthToken Saved!"
+
+echo.
+echo "-----> Creating configure_server.bat... "
+echo "-----> Run this script only after you have run the server for the first time!"
+(
+    echo @echo off
+    echo color 0a
+    echo echo "-----> Run this script only after you have run the server for the first time!"
+    echo echo "-----> Configuring Server..."
+    echo powershell.exe -Command "((Get-Content server.properties -Raw) -replace 'spawn-protection=16','spawn-protection=0') | Set-Content server.properties"
+    echo powershell.exe -Command "((Get-Content server.properties -Raw) -replace 'max-players=20','max-players=69') | Set-Content server.properties"
+    echo powershell.exe -Command "((Get-Content server.properties -Raw) -replace 'motd=A Minecraft Server','motd=\u00A7a---\u00A76>\u00A7b\u00A7l %name% \u00A76<\u00A7a---') | Set-Content server.properties"
+    if "%offline%" == "y" ( echo powershell.exe -Command "((Get-Content server.properties -Raw) -replace 'online-mode=true','online-mode=false') | Set-Content server.properties" )
+    echo echo "-----> Done!"
+    echo pause
+) >configure_server.bat
+echo "-----> Done!"
 
 echo.
 echo "-----> Creating start_only_ngrok.bat... "
@@ -150,23 +197,6 @@ echo "-----> Creating start_only_server.bat... "
 echo "-----> Done!"
 
 echo.
-echo "-----> Creating configure_server.bat... "
-echo "-----> Run this script only after you have run the server for the first time!"
-(
-    echo @echo off
-    echo color 0a
-    echo echo "-----> Run this script only after you have run the server for the first time!"
-    echo echo "-----> Configuring Server..."
-    echo powershell.exe -Command "((Get-Content server.properties -Raw) -replace 'spawn-protection=16','spawn-protection=0') | Set-Content server.properties"
-    echo powershell.exe -Command "((Get-Content server.properties -Raw) -replace 'max-players=20','max-players=69') | Set-Content server.properties"
-    echo powershell.exe -Command "((Get-Content server.properties -Raw) -replace 'motd=A Minecraft Server','motd=\u00A7a---\u00A76>\u00A7b\u00A7l %name% \u00A76<\u00A7a---') | Set-Content server.properties"
-    if "%online%" == "y" ( echo powershell.exe -Command "((Get-Content server.properties -Raw) -replace 'online-mode=true','online-mode=false') | Set-Content server.properties" )
-    echo echo "-----> Done!"
-    echo pause
-) >configure_server.bat
-echo "-----> Done!"
-
-echo.
 echo "-----> Creating start_server_and_ngrok.bat... "
 (
     echo @echo off
@@ -183,7 +213,7 @@ powershell.exe -Command "((Get-Content eula.txt -Raw) -replace 'false','true') |
 echo "-----> Done!"
 
 echo.
-echo "==========< Server Building Complete >=========="
+echo "==========< Server Creation Complete >=========="
 echo.
 echo To start your server, run start_server_and_ngrok.bat
 echo.
