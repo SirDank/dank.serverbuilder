@@ -5,7 +5,7 @@ Build and host a minecraft survival server instantly using ngrok!
 - Free account on https://ngrok.com/
 
 <h1> Steps: </h1>
-- There are none, the script is very simple to use and all steps to be taken have been written in the script
+- There are none, the script is very simple to use and all steps to be taken have been written in the script </n>
 - All you have to do is download dank.serverbuilder-master > unzip > run dank.serverbuilder.bat > follow steps in console window
 
 <h1> Note: </h1>
