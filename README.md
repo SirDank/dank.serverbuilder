@@ -1,7 +1,8 @@
 # Dank.ServerBuilder
 Build and host a minecraft survival server instantly using ngrok!
 
-Short URL: http://bit.ly/dank-serverbuilder
+Short URL > http://bit.ly/dank-serverbuilder
+Direct Download > bit.ly/dank-serverbuilder-direct
 
 Preview:
 
