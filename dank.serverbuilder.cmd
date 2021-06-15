@@ -9,31 +9,6 @@ echo " | |__| | (_| | | | |   < _ ____) |  __/ |   \ V /  __/ |  | |_) | |_| | |
 echo " |_____/ \__,_|_| |_|_|\_(_)_____/ \___|_|    \_/ \___|_|  |____/ \__,_|_|_|\__,_|\___|_|    "
 echo "                                                                                             "
 echo "============================================================================================="                                                                                            
-echo.
-echo "               /-/                \-\               "
-echo "             -- /                  \ --             "
-echo "            /  /                    \  \            "
-echo "        \  /  --\                  \--  \  /        "
-echo "        |\-      --   |---\      --      -/|        "
-echo "        \ -      /-  /     ----  \       - /        "
-echo "        --      -   /         |   -      --         "
-echo "         -      /   | +    +  /   \      -          "
-echo "       -/      |   /-        |     |      \-        "
-echo "      /        /     \-      /  /  \        \       "
-echo "     /        /   -\   \    | /-    \        \      "
-echo "   -/        /      --\      /       \        \-    "
-echo "  /         |          --  /-         |         \   "
-echo "  |         /           | -           \         |   "
-echo "  \      --|            | |            |--      /   "
-echo "   | ---/               | |               \--- |    "
-echo "   |/                   | |                   \|    "
-echo "   ________.__      ________                 __     "
-echo "  /   _____|________\______ \ _____    ____ |  | __ "
-echo "  \_____  \|  \_  __ |    |  \\__  \  /    \|  |/ / "
-echo "  /        |  ||  | \|    `   \/ __ \|   |  |    <  "
-echo " /_______  |__||__| /_______  (____  |___|  |__|_ \ "
-echo "         \/                 \/     \/     \/     \/ "
-echo.
 color 09
 color 0b
 color 0c
@@ -57,10 +32,24 @@ echo.
 echo Helps you build and host a minecraft paper server using ngrok!
 echo.
 set /P name=Server Name: 
+
+echo.
+for /F %%a in ('"curl -s https://papermc.io/api/v2/projects/paper/"') do set versions=%%a >nul 2>nul
+set versions=%versions:{"project_id":"paper","project_name":"Paper","version_groups":[=%
+set versions=%versions:"versions":[=%
+set versions=%versions:"=%
+set versions=%versions:[=%
+set versions=%versions:]=%
+set versions=%versions:{=%
+set versions=%versions:}=%
+set "versions=%versions:,=, %"
+echo Available Versions: %versions%
+echo.
+
 set /P minecraft_version=Minecraft Paper Version: 
 set /P ram=RAM in MB: 
 set /P offline=Allow Cracked Players [ y / n ]: 
-if "%offline%" == "y" ( echo "-----> Run configure_server.bat only after you have run the server for the first time!" )
+if "%offline%" == "y" ( echo "-----> Run configure_server.cmd only after you have run the server for the first time!" )
 
 md C:\DankServerBuilder
 cd C:\DankServerBuilder
@@ -187,7 +176,7 @@ echo.
 echo "-----> AuthToken Saved!"
 
 echo.
-echo "-----> Creating configure_server.bat... "
+echo "-----> Creating configure_server.cmd... "
 echo "-----> Run this script only after you have run the server for the first time!"
 (
     echo @echo off
@@ -201,40 +190,40 @@ echo "-----> Run this script only after you have run the server for the first ti
     if "%offline%" == "y" ( echo powershell.exe -Command "((Get-Content server.properties -Raw) -replace 'online-mode=true','online-mode=false') | Set-Content server.properties" )
     echo echo "-----> Done!"
     echo pause
-) >configure_server.bat
+) >configure_server.cmd
 echo "-----> Done!"
 
 echo.
-echo "-----> Creating start_only_ngrok.bat... "
+echo "-----> Creating start_only_ngrok.cmd... "
 (
     echo @echo off
     echo title Ngrok Tunnel
     echo ngrok tcp 25565
     echo pause
-) >start_only_ngrok.bat
+) >start_only_ngrok.cmd
 echo "-----> Done!"
 
 echo.
-echo "-----> Creating start_only_server.bat... "
+echo "-----> Creating start_only_server.cmd... "
 (
     echo @echo off
     echo color 0a
     echo title Minecraft Server Console
     echo java -Xms%ram%M -Xmx%ram%M -jar paper.jar -nogui
     echo pause
-) >start_only_server.bat
+) >start_only_server.cmd
 echo "-----> Done!"
 
 echo.
-echo "-----> Creating start_server_and_ngrok.bat... "
+echo "-----> Creating start_server_and_ngrok.cmd... "
 (
     echo @echo off
     echo color 0a
     echo title Minecraft Server Console
-    echo start start_only_ngrok.bat
+    echo start start_only_ngrok.cmd
     echo java -Xms%ram%M -Xmx%ram%M -jar paper.jar -nogui
     echo pause
-) >start_server_and_ngrok.bat
+) >start_server_and_ngrok.cmd
 echo "-----> Done!"
 
 echo.
@@ -243,15 +232,7 @@ powershell.exe -Command "((Get-Content eula.txt -Raw) -replace 'false','true') |
 echo "-----> Done!"
 
 echo.
-echo "============================================================================================="
-echo "  _____              _       _____                          ____        _ _     _            "
-echo " |  __ \            | |     / ____|                        |  _ \      (_) |   | |           "
-echo " | |  | | __ _ _ __ | | __ | (___   ___ _ ____   _____ _ __| |_) |_   _ _| | __| | ___ _ __  "
-echo " | |  | |/ _` | '_ \| |/ /  \___ \ / _ \ '__\ \ / / _ \ '__|  _ <| | | | | |/ _` |/ _ \ '__| "
-echo " | |__| | (_| | | | |   < _ ____) |  __/ |   \ V /  __/ |  | |_) | |_| | | | (_| |  __/ |    "
-echo " |_____/ \__,_|_| |_|_|\_(_)_____/ \___|_|    \_/ \___|_|  |____/ \__,_|_|_|\__,_|\___|_|    "
-echo "                                                                                             "
-echo "============================================================================================="
+echo "============< Server Creation Complete >============"
 echo.
 echo "               /-/                \-\               "
 echo "             -- /                  \ --             "
@@ -296,14 +277,20 @@ color 0d
 color 0e
 color 0a
 echo.
-echo "==========< Server Creation Complete >=========="
+echo " :::::::::  ::::::::::     :::     :::::::::       ::::    ::::  :::::::::: "
+echo " :+:    :+: :+:          :+: :+:   :+:    :+:      +:+:+: :+:+:+ :+:        "
+echo " +:+    +:+ +:+         +:+   +:+  +:+    +:+      +:+ +:+:+ +:+ +:+        "
+echo " +#++:++#:  +#++:++#   +#++:++#++: +#+    +:+      +#+  +:+  +#+ +#++:++#   "
+echo " +#+    +#+ +#+        +#+     +#+ +#+    +#+      +#+       +#+ +#+        "
+echo " #+#    #+# #+#        #+#     #+# #+#    #+#      #+#       #+# #+#        "
+echo " ###    ### ########## ###     ### #########       ###       ### ########## "
 echo.
-echo To start your server, run start_server_and_ngrok.bat
+echo To start your server, run start_server_and_ngrok.cmd
 echo.
 echo Your servers IP is shown in the ngrok window, it looks something like this
 echo "-----> 0.tcp.ngrok.io:00000 < last 5 digits will be random"
 echo.
-echo Run configure_server.bat after you have run your server for the first time!
+echo Run configure_server.cmd after you have run your server for the first time!
 
 echo timeout /t 10 /nobreak > NUL
 powershell.exe -Command "Start-Process https://allmylinks.com/sir-dankenstein"
