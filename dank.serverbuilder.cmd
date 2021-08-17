@@ -47,7 +47,9 @@ echo Available Versions: %versions%
 echo.
 
 set /P minecraft_version=Minecraft Paper Version: 
+echo.
 set /P ram=RAM in MB: 
+echo.
 set /P offline=Allow Cracked Players [ y / n ]: 
 if "%offline%" == "y" ( echo "-----> Run configure_server.cmd only after you have run the server for the first time!" )
 
@@ -68,16 +70,10 @@ powershell.exe -Command "Start-BitsTransfer -Source '%downloadurl%' -Destination
 echo "-----> Done!"
 
 echo.
-echo "-----> Starting Paper.jar... "
-echo timeout /t 5 /nobreak > NUL
-start paper.jar
-echo "-----> Done!"
-
-echo.
-echo "-----> Please manually download and install Java Development Kit 15... "
+echo "-----> Please manually download and install Java Development Kit 16... "
 echo "-----> Click on Windows and your download should start shortly... "
-echo "-----> You could skip this if the server version is 1.16.5 or below... "
-powershell.exe -Command "Start-Process https://www.techspot.com/downloads/5552-java-15-jdk.html"
+echo "-----> You could skip this if the server version is 1.16.5 or below and already have Java installed... "
+powershell.exe -Command "Start-Process https://adoptopenjdk.net/"
 set /P done=Hit [ENTER] to continue...
 
 echo.
@@ -228,7 +224,10 @@ echo "-----> Done!"
 
 echo.
 echo "-----> Accepting Minecraft EULA... "
-powershell.exe -Command "((Get-Content eula.txt -Raw) -replace 'false','true') | Set-Content eula.txt"
+::powershell.exe -Command "((Get-Content eula.txt -Raw) -replace 'false','true') | Set-Content eula.txt"
+(
+    echo eula=true
+) >eula.txt
 echo "-----> Done!"
 
 echo.
