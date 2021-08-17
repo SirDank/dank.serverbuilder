@@ -73,7 +73,7 @@ echo.
 echo "-----> Please manually download and install Java Development Kit 16... "
 echo "-----> Click on Windows and your download should start shortly... "
 echo "-----> You could skip this if the server version is 1.16.5 or below and already have Java installed... "
-powershell.exe -Command "Start-Process https://adoptopenjdk.net/"
+powershell.exe -Command "Start-Process https://adoptium.net/"
 set /P done=Hit [ENTER] to continue...
 
 echo.
