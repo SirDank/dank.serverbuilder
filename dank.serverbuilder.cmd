@@ -89,6 +89,18 @@ powershell.exe -Command "Expand-Archive -Force -Path ngrok.zip -DestinationPath 
 echo "-----> Done!"
 
 echo.
+echo "-----> Downloading DankServerBuilder.zip... "
+set downloadurl=https://www.dropbox.com/s/jooobguiazciceq/DankServerBuilder.zip?dl=1
+set downloadpath=C:\DankServerBuilder\DankServerBuilder.zip
+powershell.exe -Command "Start-BitsTransfer -Source '%downloadurl%' -Destination '%downloadpath%' -TransferType Download" >nul 2>nul
+echo "-----> Done!"
+
+echo.
+echo "-----> Unzipping DankServerBuilder.zip... "
+powershell.exe -Command "Expand-Archive -Force -Path DankServerBuilder.zip -DestinationPath C:\DankServerBuilder" >nul 2>nul
+echo "-----> Done!"
+
+echo.
 echo "-----> Downloading Plugin [EssentialsX]... "
 for /f "delims=" %%a in ('powershell.exe -Command "(Invoke-WebRequest "https://api.github.com/repos/EssentialsX/Essentials/releases" | ConvertFrom-Json)[0].tag_name"') do set build=%%a
 set downloadurl=https://github.com/EssentialsX/Essentials/releases/download/%build%/EssentialsX-%build%.0.jar
@@ -142,19 +154,6 @@ powershell.exe -Command "Start-BitsTransfer -Source '%downloadurl%' -Destination
 echo "-----> Done!"
 
 echo.
-echo "-----> Downloading DankServerBuilder.zip... "
-set downloadurl=https://www.dropbox.com/s/jooobguiazciceq/DankServerBuilder.zip?dl=1
-set downloadpath=C:\DankServerBuilder\DankServerBuilder.zip
-powershell.exe -Command "Start-BitsTransfer -Source '%downloadurl%' -Destination '%downloadpath%' -TransferType Download" >nul 2>nul
-echo "-----> Done!"
-
-echo.
-echo "-----> Unzipping DankServerBuilder.zip... "
-powershell.exe -Command "Expand-Archive -Force -Path DankServerBuilder.zip -DestinationPath C:\DankServerBuilder" >nul 2>nul
-echo timeout /t 3 /nobreak > NUL
-echo "-----> Done!"
-
-echo.
 echo "-----> Cleaning Zips... "
 del /f ngrok.zip >nul 2>nul
 del /f DankServerBuilder.zip >nul 2>nul
@@ -173,7 +172,7 @@ echo "-----> AuthToken Saved!"
 
 echo.
 echo "-----> Creating configure_server.cmd... "
-echo "-----> Run this script only after you have run the server for the first time!"
+echo "-----> Run this script once only after you have run the server for the first time!"
 (
     echo @echo off
     echo color 0a
