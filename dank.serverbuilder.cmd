@@ -204,7 +204,7 @@ echo "-----> Creating start_only_server.cmd... "
     echo @echo off
     echo color 0a
     echo title Minecraft Server Console
-    echo java -Xms%ram%M -Xmx%ram%M -jar paper.jar -nogui
+    echo java -Xmx%ram%M -jar paper.jar -nogui
     echo pause
 ) >start_only_server.cmd
 echo "-----> Done!"
@@ -216,7 +216,7 @@ echo "-----> Creating start_server_and_ngrok.cmd... "
     echo color 0a
     echo title Minecraft Server Console
     echo start start_only_ngrok.cmd
-    echo java -Xms%ram%M -Xmx%ram%M -jar paper.jar -nogui
+    echo java -Xmx%ram%M -jar paper.jar -nogui
     echo pause
 ) >start_server_and_ngrok.cmd
 echo "-----> Done!"
