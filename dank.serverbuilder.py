@@ -382,5 +382,5 @@ complete = f'''{red}
 '''
 
 print(complete)
-time.sleep(10)
+time.sleep(5)
 web.open_new_tab("https://allmylinks.com/sir-dankenstein")
