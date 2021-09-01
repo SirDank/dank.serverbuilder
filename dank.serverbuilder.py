@@ -142,17 +142,17 @@ def downloader(url, filename):
 response = requests.get(f"https://api.github.com/repos/EssentialsX/Essentials/releases").json()
 build = str(response[0]['tag_name'])
 
-to_download_urls.append(f"https://github.com/EssentialsX/Essentials/releases/download/{build}/EssentialsX-{build}.0.jar")
+to_download_urls.append(f"https://github.com/EssentialsX/Essentials/releases/download/{build}/EssentialsX-{build}.jar")
 to_download_filenames.append(f"plugins\EssentialsX-{build}.jar")
 
 # EssentialsXChat.jar
 
-to_download_urls.append(f"https://github.com/EssentialsX/Essentials/releases/download/{build}/EssentialsXChat-{build}.0.jar")
+to_download_urls.append(f"https://github.com/EssentialsX/Essentials/releases/download/{build}/EssentialsXChat-{build}.jar")
 to_download_filenames.append(f"plugins\EssentialsXChat-{build}.jar")
 
 # EssentialsXSpawn.jar
 
-to_download_urls.append(f"https://github.com/EssentialsX/Essentials/releases/download/{build}/EssentialsXSpawn-{build}.0.jar")
+to_download_urls.append(f"https://github.com/EssentialsX/Essentials/releases/download/{build}/EssentialsXSpawn-{build}.jar")
 to_download_filenames.append(f"plugins\EssentialsXSpawn-{build}.jar")
 
 # ProtocolLib.jar
@@ -256,7 +256,7 @@ print(f"\n{white}> {pink}Starting Multiple Downloads{white}... [ {pink}this migh
 
 start_time = time.time()
 
-thread = Thread(func=[downloader(str(to_download_urls[i]), str(to_download_filenames[i])) for i in range(len(to_download_urls))], workers=20)
+thread = Thread(func=[downloader(to_download_urls[i], to_download_filenames[i]) for i in range(len(to_download_urls))], workers=20)
 thread.start()
 thread.join()
 
@@ -287,7 +287,7 @@ pause
 
 open("start_server.cmd","w").write(data)
 
-data = f'''#!/bin/bash
+data = f'''#!/bin/sh
 java -Xmx{ram}M -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=100 -XX:+DisableExplicitGC -XX:TargetSurvivorRatio=90 -XX:G1NewSizePercent=50 -XX:G1MaxNewSizePercent=80 -XX:G1MixedGCLiveThresholdPercent=50 -XX:+AlwaysPreTouch -jar paperclip.jar -nogui
 '''
 
