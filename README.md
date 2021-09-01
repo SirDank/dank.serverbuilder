@@ -1,9 +1,23 @@
-# Dank.ServerBuilder
-Build and host a minecraft survival server instantly using ngrok!
-
 Short URL > http://bit.ly/dank-serverbuilder
 
 Direct Download > http://bit.ly/dank-serverbuilder-direct
+
+# Dank.ServerBuilder.exe
+A complete package for building and hosting a minecraft paper server on your windows system!
+
+- several changes have been made since the older .cmd ( concurrent downloads | openjdk-16.msi | more info on every type of host + tutorials | lesser manual work )
+- compiled using pyinstaller
+- src in dank.serverbuilder.py
+
+Note: The exe might be flagged as malware, since it has been compiled with python and pyinstaller. Also try to not spam the [ enter ] key on the exe, as it can cause the program to take in the wrong input. If this has occured, close the exe and relaunch it.
+Virustotal: https://www.virustotal.com/gui/file/ba133a383b41e1cdd9e624a14aa5b1d770aa506bc5cebe4e9dd2c2bfce615b23/detection
+
+Preview:
+
+![image](https://user-images.githubusercontent.com/52797753/131662893-1874e1d8-cc7d-42dc-b7c1-a46fee53f9a8.png)
+
+# Dank.ServerBuilder_old.cmd
+Build and host a minecraft survival server instantly using ngrok!
 
 Preview:
 
