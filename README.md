@@ -11,7 +11,7 @@ A complete package for building and hosting a minecraft paper server on your win
 
 Note: The exe might be flagged as malware, since it has been compiled with python and pyinstaller. Also try to not spam the [ enter ] key on the exe, as it can cause the program to take in the wrong input. If this has occured, close the exe and relaunch it.
 
-Virustotal: https://www.virustotal.com/gui/file/7e105ed5b55f27c7b657d9f0d232c8a9287f9018d210966c4cf003b56594539d/detection
+Virustotal: https://www.virustotal.com/gui/file/fc6a7af3b93e24d3c200ef59a60ecc88e19639e0591484ced58b7c20f1003832/detection
 
 Preview:
 
