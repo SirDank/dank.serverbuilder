@@ -19,7 +19,7 @@ from fake_useragent import UserAgent
 
 try:
     filepath = os.path.dirname(__file__) # as .py
-    #filepath = os.path.dirname(sys.executable) # as .exe
+    #filepath = os.path.dirname(sys.argv[0]) # as .exe
     filepath_temp = os.path.dirname(__file__) # for .exe
     os.chdir(filepath)
 except:
@@ -54,14 +54,21 @@ def banner():
     colored_chars = [random.choice(colors) + char for char in banner]
     return ''.join(colored_chars)
 
+os.system('cls')
 sys.stdout.write(banner())
 
 # get available versions and print
 
-response = requests.get("https://papermc.io/api/v2/projects/paper/").json()
-available_versions = f"\n{white}> {pink}Available Paper Versions{white}: {pink}" + str(response['versions']).replace("[","").replace("]","").replace("\'","").replace(".",f"{white}.{pink}").replace(",",f"{white},{pink}")
-print(available_versions)
-available_versions = available_versions.replace(f"{white}","").replace(f"{pink}","")
+Fail = True
+while Fail:
+    try:
+        response = requests.get("https://papermc.io/api/v2/projects/paper/").json()
+        available_versions = f"\n{white}> {pink}Available Paper Versions{white}: {pink}" + str(response['versions']).replace("[","").replace("]","").replace("\'","").replace(".",f"{white}.{pink}").replace(",",f"{white},{pink}")
+        print(available_versions)
+        available_versions = available_versions.replace(f"{white}","").replace(f"{pink}","")
+        Fail = False
+    except:
+        wait = input(f"\n{white}> {red}Failed to get paper versions! Make sure you are connected to the Internet! Press {white}Enter {red}to try again.")
 
 # input
 
@@ -90,6 +97,7 @@ read_me = f'''
 
 read_me = read_me.replace(":",f"{white}:").replace("+",f"{white}+").replace("#",f"{pink}#")
 
+os.system('cls')
 print(read_me)
 
 print(f"\n{white}> {pink}Prefarably use {white}port forwarding {pink}over {white}noip.com {pink}and {white}noip.com {pink}over {white}ngrok{pink}, Note{white}: {pink}there is a monthly manual renewal (free) for each domain used in {white}noip.com")
@@ -337,6 +345,7 @@ if skip_jdk != "y":
     temp = str(input(f"{white}> {pink}Once you have sucessfully installed and closed {white}OpenJDK-16 {pink}hit {white}[ {pink}enter {white}] {pink}to delete the installer{white}: {pink}"))
     os.remove(installer_filename)
 
+os.system('cls')
 print(read_me)
 
 if skip_ngrok != "y":
@@ -353,7 +362,7 @@ if open_noip != "n":
     if open_youtube == "y":
         web.open_new_tab("https://youtu.be/L9tbsra48c0")
 
-print(f"{white}> {pink}To allow players to connect to your server over the internet, follow this tutorial on {white}port forwarding. This is for if you do not wish to use {white}noip.com {pink}or {white}ngrok.")
+print(f"{white}> {pink}To allow players to connect to your server over the internet, follow this tutorial on {white}port forwarding. {pink}This is for if you do not wish to use {white}noip.com {pink}or {white}ngrok.")
 open_youtube = str(input(f"{white}> {pink}Do you want to open {white}port forwarding tutorial {pink}on {white}youtube{pink}? {white}[ {pink}y {white}/ {pink}n {white}]: {pink}")).lower()
 
 if open_youtube == "y":
@@ -380,7 +389,7 @@ complete = f'''{red}
                             |_|                       
 
 '''
-
+os.system('cls')
 print(complete)
 time.sleep(5)
 web.open_new_tab("https://allmylinks.com/sir-dankenstein")

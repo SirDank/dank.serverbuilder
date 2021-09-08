@@ -2,16 +2,14 @@ Short URL > http://bit.ly/dank-serverbuilder
 
 Direct Download > http://bit.ly/dank-serverbuilder-direct
 
-# Dank.ServerBuilder.exe
+# Dank.ServerBuilder.exe v1.1
 A complete package for building and hosting a minecraft paper server on your windows system!
 
 - several changes have been made since the older .cmd ( concurrent downloads | openjdk-16.msi | more info on every type of host + tutorials | lesser manual work )
-- compiled using pyinstaller
+- compiled using nuitka
 - src in dank.serverbuilder.py
 
-Note: The exe might be flagged as malware, since it has been compiled with python and pyinstaller. Also try to not spam the [ enter ] key on the exe, as it can cause the program to take in the wrong input. If this has occured, close the exe and relaunch it.
-
-Virustotal: https://www.virustotal.com/gui/file/fc6a7af3b93e24d3c200ef59a60ecc88e19639e0591484ced58b7c20f1003832/detection
+Note: The exe might be flagged as malware, since it has been compiled with python and nuitka. Also try to not spam the [ enter ] key on the exe, as it can cause the program to take in the wrong input. If this has occured, close the exe and relaunch it.
 
 Preview:
 
