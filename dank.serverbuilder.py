@@ -122,6 +122,7 @@ try:
     os.mkdir(name)
 except:
     print(f"\n{white}> {red}The folder {white}{name} {red}already exists thus can't be created{white}! {red}Creating {white}{name} 2{red}...")
+    original_name = name
     name+= " 2"
     os.mkdir(name)
 
@@ -275,7 +276,7 @@ print(f"\n{white}> {pink}Updating {white}server.properties")
 
 # updating server.properties
 
-data = open("server.properties","r").read().replace("motd=A Minecraft Server",f"motd=\\u00A7a---\\u00A76>\\u00A7b\\u00A7l {name} \\u00A76<\\u00A7a---")
+data = open("server.properties","r").read().replace("motd=A Minecraft Server",f"motd=\\u00A7a---\\u00A76>\\u00A7b\\u00A7l {original_name} \\u00A76<\\u00A7a---")
 
 if offline == "y":
     data.replace("online-mode=true","online-mode=false")
