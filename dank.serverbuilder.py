@@ -77,7 +77,7 @@ version = str(input(f"\n{white}> {pink}Version{white}: {pink}"))
 while version not in available_versions:
     print(f"\n{white}> {red}That version is not supported{white}!")
     version = str(input(f"\n{white}> {pink}Version{white}: {pink}"))
-ram = str(input(f"\n{white}> {pink}RAM in MB{white}: {pink}"))
+ram = str(input(f"\n{white}> {pink}RAM in MB {white}[ {pink}Above 512{white}]: {pink}"))
 offline = str(input(f"\n{white}> {pink}Allow Cracked Players {white}[ {pink}y {white}/ {pink}n {white}]: {pink}"))
 
 print(f"\n{white}> {pink}The following step is {white}required {pink}to run a minecraft server of version 1{white}.{pink}17 and above{white}!")
@@ -290,14 +290,14 @@ print(f"\n{white}> {pink}Creating batch scripts...")
 data = f'''@echo off
 color 0a
 title Minecraft Server Console [ {name} ]
-java -Xms256M -Xmx{ram}M -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=100 -XX:+DisableExplicitGC -XX:TargetSurvivorRatio=90 -XX:G1NewSizePercent=50 -XX:G1MaxNewSizePercent=80 -XX:G1MixedGCLiveThresholdPercent=50 -XX:+AlwaysPreTouch -jar paperclip.jar -nogui
+java -Xms512M -Xmx{ram}M -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=100 -XX:+DisableExplicitGC -XX:TargetSurvivorRatio=90 -XX:G1NewSizePercent=50 -XX:G1MaxNewSizePercent=80 -XX:G1MixedGCLiveThresholdPercent=50 -XX:+AlwaysPreTouch -jar paperclip.jar -nogui
 pause
 '''
 
 open("start_server.cmd","w").write(data)
 
 data = f'''#!/bin/sh
-java -Xms256M -Xmx{ram}M -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=100 -XX:+DisableExplicitGC -XX:TargetSurvivorRatio=90 -XX:G1NewSizePercent=50 -XX:G1MaxNewSizePercent=80 -XX:G1MixedGCLiveThresholdPercent=50 -XX:+AlwaysPreTouch -jar paperclip.jar -nogui
+java -Xms512M -Xmx{ram}M -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=100 -XX:+DisableExplicitGC -XX:TargetSurvivorRatio=90 -XX:G1NewSizePercent=50 -XX:G1MaxNewSizePercent=80 -XX:G1MixedGCLiveThresholdPercent=50 -XX:+AlwaysPreTouch -jar paperclip.jar -nogui
 '''
 
 open("start_server.sh","w").write(data)
