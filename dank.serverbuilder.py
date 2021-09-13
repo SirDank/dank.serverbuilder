@@ -80,7 +80,7 @@ while version not in available_versions:
 ram = str(input(f"\n{white}> {pink}RAM in MB {white}[ {pink}Above 512{white}]: {pink}"))
 offline = str(input(f"\n{white}> {pink}Allow Cracked Players {white}[ {pink}y {white}/ {pink}n {white}]: {pink}"))
 
-print(f"\n{white}> {pink}The following step is {white}required {pink}to run a minecraft server of version 1{white}.{pink}17 and above{white}!")
+print(f"\n{white}> {pink}The following step is {white}required {pink}to run a minecraft paper server of version 1{white}.{pink}17 and above{white}!")
 print(f"{white}> {pink}If you do not know or are unsure, hit {white}[ {pink}enter {white}] {pink}it will download the installer{white}.")
 skip_jdk = str(input(f"{white}> {pink}Do you have {white}OpenJDK-16 {pink}installed? {white}[ {pink}y {white}/ {pink}n {white}]: {pink}")).lower()
 
@@ -100,7 +100,7 @@ read_me = read_me.replace(":",f"{white}:").replace("+",f"{white}+").replace("#",
 os.system('cls')
 print(read_me)
 
-print(f"\n{white}> {pink}Prefarably use {white}port forwarding {pink}over {white}noip.com {pink}and {white}noip.com {pink}over {white}ngrok{pink}, Note{white}: {pink}there is a monthly manual renewal (free) for each domain used in {white}noip.com")
+print(f"\n{white}> {pink}Prefarably use {white}port forwarding {pink}over {white}noip.com {pink}and {white}noip.com {pink}over {white}ngrok{pink}, Note{white}: {pink}there is a monthly manual renewal {white}({pink}free{white}) {pink}for each domain used in {white}noip.com")
 print(f"{white}> Port forwarding {pink}is not hard at all! A tutorial has been provided at the end of this script{white}.")
 print(f"{white}> {pink}If you do wish to {white}port forward {pink}you can skip {white}noip.com {pink}and {white}ngrok.")
 
@@ -316,7 +316,7 @@ pause
 color 0a
 title Minecraft Server Console [ {name} ]
 start start_only_ngrok.cmd
-java -Xms256M -Xmx{ram}M -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=100 -XX:+DisableExplicitGC -XX:TargetSurvivorRatio=90 -XX:G1NewSizePercent=50 -XX:G1MaxNewSizePercent=80 -XX:G1MixedGCLiveThresholdPercent=50 -XX:+AlwaysPreTouch -jar paperclip.jar -nogui
+java -Xms512M -Xmx{ram}M -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=100 -XX:+DisableExplicitGC -XX:TargetSurvivorRatio=90 -XX:G1NewSizePercent=50 -XX:G1MaxNewSizePercent=80 -XX:G1MixedGCLiveThresholdPercent=50 -XX:+AlwaysPreTouch -jar paperclip.jar -nogui
 pause
 '''
 
