@@ -18,8 +18,8 @@ from colorama import init, Fore, Style
 from fake_useragent import UserAgent
 
 try:
-    filepath = os.path.dirname(__file__) # as .py
-    #filepath = os.path.dirname(sys.argv[0]) # as .exe
+    #filepath = os.path.dirname(__file__) # as .py
+    filepath = os.path.dirname(sys.argv[0]) # as .exe
     filepath_temp = os.path.dirname(__file__) # for .exe
     os.chdir(filepath)
 except:
@@ -60,7 +60,7 @@ sys.stdout.write(banner())
 # updater
 
 project = "dank.serverbuilder"
-current_version = 1.1
+current_version = 1.2
 print(f"\n{white}> {magenta}Version{white}: {current_version}")
 
 try:
@@ -113,12 +113,12 @@ version = str(input(f"\n{white}> {magenta}Version{white}: {magenta}"))
 while version not in available_versions:
     print(f"\n{white}> {red}That version is not supported{white}!")
     version = str(input(f"\n{white}> {magenta}Version{white}: {magenta}"))
-ram = str(input(f"\n{white}> {magenta}RAM in MB {white}[ {magenta}Above 512{white}]: {magenta}"))
+ram = str(input(f"\n{white}> {magenta}RAM in MB {white}[ {magenta}Above 512 {white}]: {magenta}"))
 offline = str(input(f"\n{white}> {magenta}Allow Cracked Players {white}[ {magenta}y {white}/ {magenta}n {white}]: {magenta}"))
 
 print(f"\n{white}> {magenta}The following step is {white}required {magenta}to run a minecraft paper server of version 1{white}.{magenta}17 and above{white}!")
-print(f"{white}> {magenta}If you do not know or are unsure, hit {white}[ {magenta}enter {white}] {magenta}it will download the installer{white}.")
-skip_jdk = str(input(f"{white}> {magenta}Do you have {white}OpenJDK-16 {magenta}installed? {white}[ {magenta}y {white}/ {magenta}n {white}]: {magenta}")).lower()
+print(f"{white}> {magenta}If you do not know or are unsure, type {white}\"{magenta}y{white}\"")
+download_jdk = str(input(f"{white}> {magenta}Do you want to download {white}OpenJDK-16 {magenta}installed? {white}[ {magenta}y {white}/ {magenta}n {white}]: {magenta}")).lower()
 
 read_me = f'''
 
@@ -136,29 +136,29 @@ read_me = read_me.replace(":",f"{white}:").replace("+",f"{white}+").replace("#",
 os.system('cls')
 print(read_me)
 
-print(f"\n{white}> {magenta}Prefarably use {white}port forwarding {magenta}over {white}noip.com {magenta}and {white}noip.com {magenta}over {white}ngrok{magenta}, Note{white}: {magenta}there is a monthly manual renewal {white}({magenta}free{white}) {magenta}for each domain used in {white}noip.com")
+print(f"\n{white}> {magenta}Prefarably use {white}port forwarding {magenta}over {white}noip.com {magenta}and {white}noip.com {magenta}over {white}ngrok")
+print(f"{white}> {magenta}Note{white}: {magenta}there is a monthly manual renewal {white}({magenta}free{white}) {magenta}for each domain used in {white}noip.com")
 print(f"{white}> Port forwarding {magenta}is not hard at all! A tutorial has been provided at the end of this script{white}.")
 print(f"{white}> {magenta}If you do wish to {white}port forward {magenta}you can skip {white}noip.com {magenta}and {white}ngrok.")
 
-print(f"\n{white}> {magenta}The following step is {white}not required {magenta}to host a minecraft server if you are {white}port forwarding {magenta}or using {white}ngrok")
-print(f"{white}> {magenta}If you do not want to port forward, hit {white}[ {magenta}enter {white}] {magenta}it will open {white}noip.com")
+print(f"\n{white}> {magenta}The following step is {white}not required {magenta}to host a minecraft server if you are either {white}port forwarding {magenta}or using {white}ngrok")
 open_noip = str(input(f"{white}> {magenta}Do you want to open {white}noip.com{magenta}? {white}[ {magenta}y {white}/ {magenta}n {white}]: {magenta}")).lower()
 
-if open_noip != "n":
+if open_noip == "y":
     print(f"\n{white}> {magenta}Opening {white}noip.com")
     web.open_new_tab("https://www.noip.com/download?page=win")
 
-print(f"\n{white}> {magenta}The following step is {white}not required {magenta}to host a minecraft server if you are {white}portforwarding {magenta}or using {white}noip.com's {magenta}Dynamic DNS Update Client{white}.")
-print(f"{white}> {magenta}If you do not want to port forward, hit {white}[ {magenta}enter {white}] {magenta}it will download ngrok{white}.")
-skip_ngrok = str(input(f"{white}> {magenta}Do you want to skip {white}ngrok{magenta}? {white}[ {magenta}y {white}/ {magenta}n {white}]: {magenta}")).lower()
+print(f"\n{white}> {magenta}The following step is {white}not required {magenta}to host a minecraft server if you are either {white}port forwarding {magenta}or using {white}noip.com's {magenta}Dynamic DNS Update Client{white}.")
+download_ngrok = str(input(f"{white}> {magenta}Do you want to download {white}ngrok{magenta}? {white}[ {magenta}y {white}/ {magenta}n {white}]: {magenta}")).lower()
 
 # go to workspace
+
+original_name = name
 
 try:
     os.mkdir(name)
 except:
     print(f"\n{white}> {red}The folder {white}{name} {red}already exists thus can't be created{white}! {red}Creating {white}{name} 2{red}...")
-    original_name = name
     name+= " 2"
     os.mkdir(name)
 
@@ -236,14 +236,14 @@ to_download_filenames.append("paperclip.jar")
 
 # ngrok-stable-windows-amd64.zip
 
-if skip_ngrok != "y":
+if download_ngrok == "y":
 
     to_download_urls.append("https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-amd64.zip")
     to_download_filenames.append("ngrok.zip")
 
 # OpenJDK-16.msi
 
-if skip_jdk != "y":
+if download_jdk == "y":
 
     try:
         scraper = CloudScraper()
@@ -338,7 +338,7 @@ java -Xms512M -Xmx{ram}M -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:MaxGC
 
 open("start_server.sh","w").write(data)
 
-if skip_ngrok != "y":
+if download_ngrok == "y":
 
     data = '''@echo off
 title Ngrok Tunnel
@@ -360,7 +360,7 @@ pause
 
 # begin installation phase
 
-if skip_ngrok != "y":
+if download_ngrok == "y":
 
     zipfile.ZipFile("ngrok.zip", 'r').extractall()
     os.remove("ngrok.zip")
@@ -374,7 +374,7 @@ if skip_ngrok != "y":
     print()
     os.system(f"ngrok.exe authtoken {ngrok_token}")
 
-if skip_jdk != "y":
+if download_jdk == "y":
 
     print(f"\n{white}> {magenta}Starting {white}OpenJDK-16.msi")
     os.system(f"start {installer_filename}")
@@ -385,21 +385,21 @@ if skip_jdk != "y":
 os.system('cls')
 print(read_me)
 
-if skip_ngrok != "y":
+if download_ngrok == "y":
     print(f"\n{white}> {magenta}To start your server, run {white}start_server_and_ngrok.cmd")
     print(f"{white}> {magenta}To allow players to connect to your server over the internet, {white}ngrok {magenta}must be running. This is for if you do not wish to {white}port forward {magenta}or use {white}noip.com's {magenta}Dynamic DNS Update Client{white}.")
     print(f"{white}> {magenta}Your servers IP is shown in the ngrok window, it looks something like this {white}> {magenta}0.tcp.ngrok.io:00000 {white}< {magenta}last 5 digits will be random.")
 else:
     print(f"\n{white}> {magenta}To start your server, run {white}start_server.cmd")
 
-if open_noip != "n":
+if open_noip == "y":
     print(f"{white}> {magenta}To allow players to connect to your server over the internet, follow this tutorial on using {white}noip{magenta}. This is for if you do not wish to {white}port forward {magenta}or use {white}ngrok.")
     open_youtube = str(input(f"{white}> {magenta}Do you want to open {white}noip tutorial {magenta}on {white}youtube{magenta}? {white}[ {magenta}y {white}/ {magenta}n {white}]: {magenta}")).lower()
 
     if open_youtube == "y":
         web.open_new_tab("https://youtu.be/L9tbsra48c0")
 
-print(f"{white}> {magenta}To allow players to connect to your server over the internet, follow this tutorial on {white}port forwarding. {magenta}This is for if you do not wish to use {white}noip.com {magenta}or {white}ngrok.")
+print(f"\n{white}> {magenta}To allow players to connect to your server over the internet, follow this tutorial on {white}port forwarding. {magenta}This is for if you do not wish to use {white}noip.com {magenta}or {white}ngrok.")
 open_youtube = str(input(f"{white}> {magenta}Do you want to open {white}port forwarding tutorial {magenta}on {white}youtube{magenta}? {white}[ {magenta}y {white}/ {magenta}n {white}]: {magenta}")).lower()
 
 if open_youtube == "y":
