@@ -1,8 +1,8 @@
 Short URL > http://bit.ly/dank-serverbuilder
 
-Direct Download > https://github.com/SirDankenstien/dank.serverbuilder/archive/refs/heads/main.zip
+Direct Download > https://github.com/SirDankenstien/dank.serverbuilder/blob/main/dank.serverbuilder.exe?raw=true
 
-# Dank.ServerBuilder.exe v1.1
+# Dank.ServerBuilder.exe
 A complete package for building and hosting a minecraft paper server on your windows system!
 
 - several changes have been made since the older .cmd ( concurrent downloads | openjdk-16.msi | more info on every type of host + tutorials | lesser manual work )
