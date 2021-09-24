@@ -13,7 +13,7 @@ Note: The exe might be flagged as malware, since it has been compiled with pytho
 
 Preview:
 
-![image](https://user-images.githubusercontent.com/52797753/131662893-1874e1d8-cc7d-42dc-b7c1-a46fee53f9a8.png)
+![image](https://user-images.githubusercontent.com/52797753/134666416-53221fc2-2070-469e-9adb-6e6323c7f844.png)
 
 # Dank.ServerBuilder_old.cmd
 Build and host a minecraft survival server instantly using ngrok!
