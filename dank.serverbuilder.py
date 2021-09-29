@@ -6,16 +6,8 @@ import random
 import zipfile
 import requests
 import webbrowser as web
-from cloudscraper import (
-    CloudScraper,
-    CloudflareIUAMError,
-    CloudflareCaptchaError,
-    CloudflareChallengeError,
-    CloudflareSolveError
-)
 from asyncthread import Thread
 from colorama import init, Fore, Style
-from fake_useragent import UserAgent
 
 try:
     #filepath = os.path.dirname(__file__) # as .py
@@ -24,8 +16,6 @@ try:
     os.chdir(filepath)
 except:
     pass
-
-ua = UserAgent()
 
 init(autoreset=True)
 white = Fore.WHITE + Style.BRIGHT
@@ -36,31 +26,44 @@ green = Fore.GREEN + Style.BRIGHT
 
 # print banner
 
-def banner():
-    banner = '''
+banner_ascii = '''
 
-              ______               __       _______                             _______       __ __    __            
-             |   _  \ .---.-.-----|  |--.  |   _   .-----.----.--.--.-----.----|   _   .--.--|__|  .--|  .-----.----.
-             |.  |   \|  _  |     |    < __|   1___|  -__|   _|  |  |  -__|   _|.  1   |  |  |  |  |  _  |  -__|   _|
-             |.  |    |___._|__|__|__|__|__|____   |_____|__|  \___/|_____|__| |.  _   |_____|__|__|_____|_____|__|  
-             |:  1    /                    |:  1   |                           |:  1    \                            
-             |::.. . /                     |::.. . |                           |::.. .  /                            
-             `------'                      `-------'                           `-------'                             
+ ______               __       _______                             _______       __ __    __            
+|   _  \ .---.-.-----|  |--.  |   _   .-----.----.--.--.-----.----|   _   .--.--|__|  .--|  .-----.----.
+|.  |   \|  _  |     |    < __|   1___|  -__|   _|  |  |  -__|   _|.  1   |  |  |  |  |  _  |  -__|   _|
+|.  |    |___._|__|__|__|__|__|____   |_____|__|  \___/|_____|__| |.  _   |_____|__|__|_____|_____|__|  
+|:  1    /                    |:  1   |                           |:  1    \                            
+|::.. . /                     |::.. . |                           |::.. .  /                            
+`------'                      `-------'                           `-------'                             
+
 
 '''
-    bad_colors = ['BLACK', 'WHITE', 'LIGHTBLACK_EX', 'RESET']
-    codes = vars(Fore)
-    colors = [codes[color] for color in codes if color not in bad_colors]
-    colored_chars = [random.choice(colors) + char for char in banner]
-    return ''.join(colored_chars)
+# randomized banner color
+
+bad_colors = ['BLACK', 'WHITE', 'LIGHTBLACK_EX', 'LIGHTWHITE_EX', 'RESET']
+codes = vars(Fore)
+colors = [codes[color] for color in codes if color not in bad_colors]
+colored_chars = [random.choice(colors) + char for char in banner_ascii]
+banner_ascii_colored = ''.join(colored_chars).splitlines()
+
+# colored banner aligner
+
+def aligner(banner, banner_colored):
+
+    width = os.get_terminal_size().columns
+    banner_lines = banner.splitlines()
+    for i in range(len(banner_lines)):
+        banner_lines[i] = banner_lines[i].center(width).replace(banner_lines[i],banner_colored[i])
+    banner_aligned = ''.join(banner_lines)
+    return banner_aligned
 
 os.system('cls')
-sys.stdout.write(banner())
+sys.stdout.write(aligner(banner_ascii, banner_ascii_colored))
 
 # updater
 
 project = "dank.serverbuilder"
-current_version = 1.2
+current_version = 1.3
 print(f"\n{white}> {magenta}Version{white}: {current_version}")
 
 try:
@@ -110,31 +113,47 @@ while not Success:
 
 name = str(input(f"\n{white}> {magenta}Server Name{white}: {magenta}"))
 version = str(input(f"\n{white}> {magenta}Version{white}: {magenta}"))
-while version not in available_versions:
+
+# check if version is available
+
+versions_list = available_versions.replace(",","").replace(f"{white}","").replace(f"{magenta}","").split(" ")
+version_available = False
+
+def version_check():
+    for ver in versions_list:
+        if version == ver:
+            global version_available
+            version_available = True
+
+version_check()
+
+while not version_available:
     print(f"\n{white}> {red}That version is not supported{white}!")
     version = str(input(f"\n{white}> {magenta}Version{white}: {magenta}"))
+    version_check()
 ram = str(input(f"\n{white}> {magenta}RAM in MB {white}[ {magenta}Above 512 {white}]: {magenta}"))
 offline = str(input(f"\n{white}> {magenta}Allow Cracked Players {white}[ {magenta}y {white}/ {magenta}n {white}]: {magenta}"))
 
 print(f"\n{white}> {magenta}The following step is {white}required {magenta}to run a minecraft paper server of version 1{white}.{magenta}17 and above{white}!")
 print(f"{white}> {magenta}If you do not know or are unsure, type {white}\"{magenta}y{white}\"")
-download_jdk = str(input(f"{white}> {magenta}Do you want to download {white}OpenJDK-16 {magenta}installed? {white}[ {magenta}y {white}/ {magenta}n {white}]: {magenta}")).lower()
+download_jdk = str(input(f"{white}> {magenta}Do you want to download {white}OpenJDK-16{magenta}? {white}[ {magenta}y {white}/ {magenta}n {white}]: {magenta}")).lower()
 
 read_me = f'''
 
-        :::::::::  ::::::::::     :::     :::::::::       ::::    ::::  ::::::::::
-        :+:    :+: :+:          :+: :+:   :+:    :+:      +:+:+: :+:+:+ :+:       
-        +:+    +:+ +:+         +:+   +:+  +:+    +:+      +:+ +:+:+ +:+ +:+       
-        +#++:++#:  +#++:++#   +#++:++#++: +#+    +:+      +#+  +:+  +#+ +#++:++#  
-        +#+    +#+ +#+        +#+     +#+ +#+    +#+      +#+       +#+ +#+       
-        #+#    #+# #+#        #+#     #+# #+#    #+#      #+#       #+# #+#       
-        ###    ### ########## ###     ### #########       ###       ### ##########
+:::::::::  ::::::::::     :::     :::::::::       ::::    ::::  ::::::::::
+:+:    :+: :+:          :+: :+:   :+:    :+:      +:+:+: :+:+:+ :+:       
++:+    +:+ +:+         +:+   +:+  +:+    +:+      +:+ +:+:+ +:+ +:+       
++#++:++#:  +#++:++#   +#++:++#++: +#+    +:+      +#+  +:+  +#+ +#++:++#  
++#+    +#+ +#+        +#+     +#+ +#+    +#+      +#+       +#+ +#+       
+#+#    #+# #+#        #+#     #+# #+#    #+#      #+#       #+# #+#       
+###    ### ########## ###     ### #########       ###       ### ##########
+
 '''
 
-read_me = read_me.replace(":",f"{white}:").replace("+",f"{white}+").replace("#",f"{magenta}#")
+read_me_colored = read_me.replace(":",f"{white}:").replace("+",f"{white}+").replace("#",f"{magenta}#").splitlines()
 
 os.system('cls')
-print(read_me)
+sys.stdout.write(aligner(read_me, read_me_colored))
 
 print(f"\n{white}> {magenta}Prefarably use {white}port forwarding {magenta}over {white}noip.com {magenta}and {white}noip.com {magenta}over {white}ngrok")
 print(f"{white}> {magenta}Note{white}: {magenta}there is a monthly manual renewal {white}({magenta}free{white}) {magenta}for each domain used in {white}noip.com")
@@ -171,6 +190,7 @@ zipfile.ZipFile(f"{filepath_temp}\DankServerBuilder.zip", 'r').extractall()
 
 # begin download phase
 
+os.system('cls')
 print(f"\n{white}> {magenta}Preparing Downloads{white}...")
 
 to_download_urls = []
@@ -245,55 +265,31 @@ if download_ngrok == "y":
 
 if download_jdk == "y":
 
-    try:
-        scraper = CloudScraper()
-        headers = {
-            "Host": "api.adoptium.net",
-            "Connection": "keep-alive",
-            "Cache-Control": "max-age=0",
-            "Upgrade-Insecure-Requests": "1",
-            "User-Agent": str(ua.random),
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-            "Sec-Fetch-Site": "none",
-            "Sec-Fetch-Mode": "navigate",
-            "Sec-Fetch-User": "?1",
-            "Sec-Fetch-Dest": "document",
-            "Accept-Encoding": "gzip, deflate, br",
-            "Accept-Language": "en-US,en;q=0.9",
-            "X-Requested-With": "XMLHttpRequest"
-        }
+    random_ua = str(random.choice(list(set(requests.get("https://raw.githubusercontent.com/DavidWittman/requests-random-user-agent/master/requests_random_user_agent/useragents.txt").content.decode().splitlines()))))
 
-        response = scraper.get("https://api.adoptium.net/v3/assets/feature_releases/16/ga?architecture=x64&heap_size=normal&image_type=jdk&jvm_impl=hotspot&os=windows&page=0&page_size=10&project=jdk&sort_method=DEFAULT&sort_order=DESC&vendor=adoptium").json()
+    headers = {
+        "Host": "api.adoptium.net",
+        "Connection": "keep-alive",
+        "Cache-Control": "max-age=0",
+        "Upgrade-Insecure-Requests": "1",
+        "User-Agent": random_ua,
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+        "Sec-Fetch-Site": "none",
+        "Sec-Fetch-Mode": "navigate",
+        "Sec-Fetch-User": "?1",
+        "Sec-Fetch-Dest": "document",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US,en;q=0.9",
+        "X-Requested-With": "XMLHttpRequest"
+    }
 
-        matches = re.findall("https://github.com/adoptium/[a-zA-Z0-9/%._-]+msi",str(response))
-        matches = list(set(matches))
+    response = requests.get("https://api.adoptium.net/v3/assets/feature_releases/16/ga?architecture=x64&heap_size=normal&image_type=jdk&jvm_impl=hotspot&os=windows&page=0&page_size=10&project=jdk&sort_method=DEFAULT&sort_order=DESC&vendor=adoptium", headers=headers).json()
 
-        installer_filename = str(matches[0]).split("/")[-1]
+    installer_url = str(response[0]["binaries"][0]["installer"]["link"])
+    installer_filename = installer_url.split("/")[-1]
 
-        to_download_urls.append(f"{matches[0]}")
-        to_download_filenames.append(installer_filename)
-
-    except requests.RequestException:
-        print(f"\n{white}> {red}Requests Error")
-        sys.exit()
-    except CloudflareIUAMError:
-        print(f"\n{white}> {red}Cloudflare IUAM Error")
-        sys.exit()
-    except CloudflareCaptchaError:
-        print(f"\n{white}> {red}Cloudflare Captcha Error")
-        sys.exit()
-    except CloudflareChallengeError:
-        print(f"\n{white}> {red}Cloudflare Challange Error")
-        sys.exit()
-    except CloudflareSolveError:
-        print(f"\n{white}> {red}Cloudflare Solve Error")
-        sys.exit()
-    except Exception as e:
-        exc_type, exc_obj, exc_tb = sys.exc_info()
-        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-        print(f"{red}Error{white}: {red}{str(e)} {white}| {red}{exc_type} {white}| {red}Line{white}: {red}{exc_tb.tb_lineno}")
-        wait = input("\nPress Enter to continue...\n\n")
-        sys.exit()
+    to_download_urls.append(installer_url)
+    to_download_filenames.append(installer_filename)
 
 # begin downloads
 
@@ -383,7 +379,7 @@ if download_jdk == "y":
     os.remove(installer_filename)
 
 os.system('cls')
-print(read_me)
+sys.stdout.write(aligner(read_me, read_me_colored))
 
 if download_ngrok == "y":
     print(f"\n{white}> {magenta}To start your server, run {white}start_server_and_ngrok.cmd")
@@ -405,28 +401,31 @@ open_youtube = str(input(f"{white}> {magenta}Do you want to open {white}port for
 if open_youtube == "y":
     web.open_new_tab("https://youtu.be/X75GbRaGzu8")
 
-complete = f'''{red}
+complete = f'''
 
-         ___  ___ _ ____   _____ _ __                 
-        / __|/ _ \ '__\ \ / / _ \ '__|                
-        \__ \  __/ |   \ V /  __/ |                   
-        |___/\___|_|    \_/ \___|_|                   
+ ___  ___ _ ____   _____ _ __                 
+/ __|/ _ \ '__\ \ / / _ \ '__|                
+\__ \  __/ |   \ V /  __/ |                   
+|___/\___|_|    \_/ \___|_|                   
 
-                             _   _                    
-          ___ _ __ ___  __ _| |_(_) ___  _ __         
-         / __| '__/ _ \/ _` | __| |/ _ \| '_ \        
-        | (__| | |  __/ (_| | |_| | (_) | | | |       
-         \___|_|  \___|\__,_|\__|_|\___/|_| |_|       
+                     _   _                    
+  ___ _ __ ___  __ _| |_(_) ___  _ __         
+ / __| '__/ _ \/ _` | __| |/ _ \| '_ \        
+| (__| | |  __/ (_| | |_| | (_) | | | |       
+ \___|_|  \___|\__,_|\__|_|\___/|_| |_|       
 
-                                   _      _         _ 
-          ___ ___  _ __ ___  _ __ | | ___| |_ ___  / \\
-         / __/ _ \| '_ ` _ \| '_ \| |/ _ \ __/ _ \/  /
-        | (_| (_) | | | | | | |_) | |  __/ ||  __/\_/ 
-         \___\___/|_| |_| |_| .__/|_|\___|\__\___\/   
-                            |_|                       
+                           _      _         _ 
+  ___ ___  _ __ ___  _ __ | | ___| |_ ___  / \\
+ / __/ _ \| '_ ` _ \| '_ \| |/ _ \ __/ _ \/  /
+| (_| (_) | | | | | | |_) | |  __/ ||  __/\_/ 
+ \___\___/|_| |_| |_| .__/|_|\___|\__\___\/   
+                    |_|                       
 
 '''
+
+complete_colored = (red + complete).splitlines()
+
 os.system('cls')
-print(complete)
+sys.stdout.write(aligner(complete, complete_colored))
 time.sleep(5)
 web.open_new_tab("https://allmylinks.com/sir-dankenstein")
