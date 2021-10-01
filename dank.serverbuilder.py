@@ -74,7 +74,11 @@ except:
 Success = False
 while not Success:
     try:
-        latest_version = float(requests.get(f"https://raw.githubusercontent.com/SirDankenstien/{project}/main/version.txt").content.decode())
+        latest_version = requests.get(f"https://raw.githubusercontent.com/SirDankenstien/{project}/main/version.txt").content.decode()
+        if "Not Found" in str(latest_version):
+            latest_version = 0
+        else:
+            latest_version = float(latest_version)
         Success = True
     except:
         wait = input(f"\n{white}> {red}Failed to check for an update! Make sure you are connected to the Internet! Press {white}Enter {red}to try again.")
