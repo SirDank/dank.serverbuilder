@@ -1,6 +1,6 @@
 Short URL > http://bit.ly/dank-serverbuilder
 
-Direct Download > https://github.com/SirDankenstien/dank.serverbuilder/blob/main/dank.serverbuilder.exe?raw=true
+Direct Download > http://bit.ly/dank-serverbuilder-direct2
 
 Start Building by running > dank.serverbuilder.exe
 
