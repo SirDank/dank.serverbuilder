@@ -64,7 +64,7 @@ sys.stdout.write(aligner(banner_ascii, banner_ascii_colored))
 # updater
 
 project = "dank.serverbuilder"
-current_version = 1.3
+current_version = 1.4
 print(f"\n{white}> {magenta}Version{white}: {current_version}")
 
 try:
