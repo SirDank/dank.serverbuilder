@@ -6,7 +6,8 @@ import random
 import zipfile
 import requests
 import webbrowser as web
-from asyncthread import Thread
+import concurrent.futures
+from packaging import version
 from colorama import init, Fore, Style
 
 try:
@@ -83,7 +84,7 @@ while not Success:
     except:
         wait = input(f"\n{white}> {red}Failed to check for an update! Make sure you are connected to the Internet! Press {white}Enter {red}to try again.")
 
-if latest_version > current_version:
+if version.parse(str(latest_version)) > version.parse(str(current_version)):
 
     choice = str(input(f"\n{white}> {magenta}Update Found{white}: {latest_version}\n\n{white}> {magenta}Download latest version? {white}[ {magenta}y {white}/ {magenta}n {white}]: {magenta}")).lower()
     if choice == "y":
@@ -95,10 +96,10 @@ if latest_version > current_version:
         time.sleep(5)
         sys.exit()
 
-elif latest_version == current_version:
-    print(f"\n{white}> {magenta}Latest Version!")
-else:
-    print(f"\n{white}> {magenta}Development Version!")
+#elif latest_version == current_version:
+#    print(f"\n{white}> {magenta}Latest Version!")
+#else:
+#    print(f"\n{white}> {magenta}Development Version!")
 
 # get available versions and print
 
@@ -151,6 +152,7 @@ read_me = f'''
 +#+    +#+ +#+        +#+     +#+ +#+    +#+      +#+       +#+ +#+       
 #+#    #+# #+#        #+#     #+# #+#    #+#      #+#       #+# #+#       
 ###    ### ########## ###     ### #########       ###       ### ##########
+
 
 '''
 
@@ -297,16 +299,24 @@ if download_jdk == "y":
 
 # begin downloads
 
-print(f"\n{white}> {magenta}Starting Multiple Downloads{white}... [ {magenta}this might take a few minutes {white}]")
+print(f"\n{white}> {magenta}Starting Multiple Downloads{white}... [ {magenta}this might take a minute {white}]")
 
 start_time = time.time()
 
-thread = Thread(func=[downloader(to_download_urls[i], to_download_filenames[i]) for i in range(len(to_download_urls))], workers=20)
-thread.start()
-thread.join()
+futures = []
+executor = concurrent.futures.ThreadPoolExecutor(max_workers=2)
+for i in range(len(to_download_urls)):
+    futures.append(executor.submit(downloader, to_download_urls[i], to_download_filenames[i]))
+for future in concurrent.futures.as_completed(futures):
+    try:
+        future.result()
+    except:
+        pass
+futures.clear()
 
 time_taken = ( time.time() - start_time ) / 60
 
+os.system('cls')
 print(f"\n{white}> {magenta}Finished All Downloads in {white}{{0:.1f}} {magenta}minutes{white}!".format(time_taken))
 print(f"\n{white}> {magenta}Updating {white}server.properties")
 
@@ -379,7 +389,7 @@ if download_jdk == "y":
     print(f"\n{white}> {magenta}Starting {white}OpenJDK-16.msi")
     os.system(f"start {installer_filename}")
 
-    temp = str(input(f"{white}> {magenta}Once you have sucessfully installed and closed {white}OpenJDK-16 {magenta}hit {white}[ {magenta}enter {white}] {magenta}to delete the installer{white}: {magenta}"))
+    temp = str(input(f"\n{white}> {magenta}Once you have sucessfully installed and closed {white}OpenJDK-16 {magenta}hit {white}[ {magenta}enter {white}] {magenta}to delete the installer{white}: {magenta}"))
     os.remove(installer_filename)
 
 os.system('cls')
@@ -406,6 +416,8 @@ if open_youtube == "y":
     web.open_new_tab("https://youtu.be/X75GbRaGzu8")
 
 complete = f'''
+
+
 
  ___  ___ _ ____   _____ _ __                 
 / __|/ _ \ '__\ \ / / _ \ '__|                
