@@ -1,3 +1,8 @@
+# Note: dank.serverbuilder.py is meant to be run as an .exe by default, if you would like to execute the script, make the below changes...
+#       - uncomment the following line > filepath = os.path.dirname(__file__) # as .py
+#       - comment the following line > filepath = os.path.dirname(sys.argv[0]) # as .exe
+#       - DankServerBuilder.zip is also required for this script to function properly! Make sure "filepath_temp" directs to its directory!
+
 import os
 import re
 import sys
@@ -61,16 +66,18 @@ def aligner(banner, banner_colored):
 os.system('cls')
 sys.stdout.write(aligner(banner_ascii, banner_ascii_colored))
 
-# updater
+try:
+    os.remove(f"dank.serverbuilder.exe")
+except:
+    pass
+
+# updater - no longer required
+
+'''
 
 project = "dank.serverbuilder"
 current_version = 1.4
 print(f"\n{white}> {magenta}Version{white}: {current_version}")
-
-try:
-    os.remove(f"{project}.exe")
-except:
-    pass
 
 Success = False
 while not Success:
@@ -101,7 +108,9 @@ if version.parse(str(latest_version)) > version.parse(str(current_version)):
 #else:
 #    print(f"\n{white}> {magenta}Development Version!")
 
-# get available versions and print
+'''
+
+# get available papermc versions and print
 
 Success = False
 while not Success:
@@ -346,7 +355,7 @@ data = f'''#!/bin/sh
 java -Xms512M -Xmx{ram}M -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=100 -XX:+DisableExplicitGC -XX:TargetSurvivorRatio=90 -XX:G1NewSizePercent=50 -XX:G1MaxNewSizePercent=80 -XX:G1MixedGCLiveThresholdPercent=50 -XX:+AlwaysPreTouch -jar paperclip.jar -nogui
 '''
 
-open("start_server.sh","w").write(data)
+open("start_server.sh","wb").write(data.encode().replace(b'\r\n',b'\n'))
 
 if download_ngrok == "y":
 
