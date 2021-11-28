@@ -1,7 +1,7 @@
 # Note: dank.serverbuilder.py is meant to be run as an .exe by default, if you would like to execute the script, make the below changes...
 #       - uncomment the following line > filepath = os.path.dirname(__file__) # as .py
 #       - comment the following line > filepath = os.path.dirname(sys.argv[0]) # as .exe
-#       - DankServerBuilder.zip is also required for this script to function properly! Make sure "filepath_temp" directs to its directory!
+#       - dsb_assets.zip is also required for this script to function properly! Make sure "filepath_temp" directs to its directory!
 
 import os
 import re
@@ -12,7 +12,6 @@ import zipfile
 import requests
 import webbrowser as web
 import concurrent.futures
-from packaging import version
 from colorama import init, Fore, Style
 
 try:
@@ -33,17 +32,14 @@ green = Fore.GREEN + Style.BRIGHT
 # print banner
 
 banner_ascii = '''
-
- ______               __       _______                             _______       __ __    __            
-|   _  \ .---.-.-----|  |--.  |   _   .-----.----.--.--.-----.----|   _   .--.--|__|  .--|  .-----.----.
-|.  |   \|  _  |     |    < __|   1___|  -__|   _|  |  |  -__|   _|.  1   |  |  |  |  |  _  |  -__|   _|
-|.  |    |___._|__|__|__|__|__|____   |_____|__|  \___/|_____|__| |.  _   |_____|__|__|_____|_____|__|  
-|:  1    /                    |:  1   |                           |:  1    \                            
-|::.. . /                     |::.. . |                           |::.. .  /                            
-`------'                      `-------'                           `-------'                             
-
-
+                                                                                
+ ____          _     _____                     _____     _ _   _            ___ 
+|    \ ___ ___| |_  |   __|___ ___ _ _ ___ ___| __  |_ _|_| |_| |___ ___   |_  |
+|  |  | .'|   | '_|_|__   | -_|  _| | | -_|  _| __ -| | | | | . | -_|  _|  |  _|
+|____/|__,|_|_|_,_|_|_____|___|_|  \_/|___|_| |_____|___|_|_|___|___|_|    |___|
+                                                                                
 '''
+
 # randomized banner color
 
 bad_colors = ['BLACK', 'WHITE', 'LIGHTBLACK_EX', 'LIGHTWHITE_EX', 'RESET']
@@ -64,51 +60,7 @@ def aligner(banner, banner_colored):
     return banner_aligned
 
 os.system('cls')
-sys.stdout.write(aligner(banner_ascii, banner_ascii_colored))
-
-try:
-    os.remove(f"dank.serverbuilder.exe")
-except:
-    pass
-
-# updater - no longer required
-
-'''
-
-project = "dank.serverbuilder"
-current_version = 1.4
-print(f"\n  {white}> {magenta}Version{white}: {current_version}")
-
-Success = False
-while not Success:
-    try:
-        latest_version = requests.get(f"https://raw.githubusercontent.com/SirDankenstien/{project}/main/version.txt").content.decode()
-        if "Not Found" in str(latest_version):
-            latest_version = 0
-        else:
-            latest_version = float(latest_version)
-        Success = True
-    except:
-        wait = input(f"\n  {white}> {red}Failed to check for an update! Make sure you are connected to the Internet! Press {white}Enter {red}to try again.")
-
-if version.parse(str(latest_version)) > version.parse(str(current_version)):
-
-    choice = str(input(f"\n  {white}> {magenta}Update Found{white}: {latest_version}\n\n  {white}> {magenta}Download latest version? {white}[ {magenta}y {white}/ {magenta}n {white}]: {magenta}")).lower()
-    if choice == "y":
-        print(f"\n  {white}> {magenta}Downloading {white}{project}-latest.exe{magenta}...")
-        data = requests.get(f"https://github.com/SirDankenstien/{project}/blob/main/{project}.exe?raw=true", allow_redirects=True).content
-        open(f"{project}-latest.exe","wb").write(data)
-        data = None
-        print(f"\n  {white}> {magenta}Downloaded!\n\n{magenta}Terminating in 5s...")
-        time.sleep(5)
-        sys.exit()
-
-#elif latest_version == current_version:
-#    print(f"\n  {white}> {magenta}Latest Version!")
-#else:
-#    print(f"\n  {white}> {magenta}Development Version!")
-
-'''
+print(aligner(banner_ascii, banner_ascii_colored))
 
 # get available papermc versions and print
 
@@ -122,13 +74,13 @@ while not Success:
         Success = True
     except:
         wait = input(f"\n  {white}> {red}Failed to get paper versions! Make sure you are connected to the Internet! Press {white}Enter {red}to try again.")
-
-# input
+        
+# user input
 
 name = str(input(f"\n  {white}> {magenta}Server Name{white}: {magenta}"))
 version = str(input(f"\n  {white}> {magenta}Version{white}: {magenta}"))
 
-# check if version is available
+# check if mc version is available
 
 versions_list = available_versions.replace(",","").replace(f"{white}","").replace(f"{magenta}","").split(" ")
 version_available = False
@@ -141,16 +93,20 @@ def version_check():
 
 version_check()
 
+# user input [ server settings ]
+
 while not version_available:
     print(f"\n  {white}> {red}That version is not supported{white}!")
     version = str(input(f"\n  {white}> {magenta}Version{white}: {magenta}"))
     version_check()
-ram = str(input(f"\n  {white}> {magenta}RAM in MB {white}[ {magenta}Above 512 {white}]: {magenta}"))
-offline = str(input(f"\n  {white}> {magenta}Allow Cracked Players {white}[ {magenta}y {white}/ {magenta}n {white}]: {magenta}"))
+os.system(f"title dank.serverbuilder [ {name} ] [ {version} ]")
 
-print(f"\n  {white}> {magenta}The following step is {white}required {magenta}to run a minecraft paper server of version 1{white}.{magenta}17 and above{white}!")
-print(f"{white}> {magenta}If you do not know or are unsure, type {white}\"{magenta}y{white}\"")
-download_jdk = str(input(f"  {white}> {magenta}Do you want to download {white}OpenJDK-16{magenta}? {white}[ {magenta}y {white}/ {magenta}n {white}]: {magenta}")).lower()
+ram = str(input(f"\n  {white}> {magenta}RAM in MB {white}[ {magenta}Above 512 {white}]: {magenta}"))
+
+if ram < 512:
+    ram = 512
+
+offline = str(input(f"\n  {white}> {magenta}Allow Cracked Players {white}[ {magenta}y {white}/ {magenta}n {white}]: {magenta}"))
 
 read_me = f'''
 
@@ -170,21 +126,28 @@ read_me_colored = read_me.replace(":",f"{white}:").replace("+",f"{white}+").repl
 os.system('cls')
 sys.stdout.write(aligner(read_me, read_me_colored))
 
-print(f"\n  {white}> {magenta}Prefarably use {white}port forwarding {magenta}over {white}noip.com {magenta}and {white}noip.com {magenta}over {white}ngrok")
-print(f"  {white}> {magenta}Note{white}: {magenta}there is a monthly manual renewal {white}({magenta}free{white}) {magenta}for each domain used in {white}noip.com")
-print(f"  {white}> Port forwarding {magenta}is not hard at all! A tutorial has been provided at the end of this script{white}.")
-print(f"  {white}> {magenta}If you do wish to {white}port forward {magenta}you can skip {white}noip.com {magenta}and {white}ngrok.")
+# JDK input
 
-print(f"\n  {white}> {magenta}The following step is {white}not required {magenta}to host a minecraft server if you are either {white}port forwarding {magenta}or using {white}ngrok")
-open_noip = str(input(f"  {white}> {magenta}Do you want to open {white}noip.com{magenta}? {white}[ {magenta}y {white}/ {magenta}n {white}]: {magenta}")).lower()
+print(f"\n  {white}> {magenta}The below program step is {white}required {magenta}to run a minecraft paper server of version 1{white}.{magenta}17 and above{white}! Only needs to be done once!")
+print(f"{white}> {magenta}If you do not know / are unsure / never installed jre, type {white}\"{magenta}y{white}\"")
+download_jdk = str(input(f"  {white}> {magenta}Do you want to download {white}OpenJDK-16{magenta}? {white}[ {magenta}y {white}/ {magenta}n {white}]: {magenta}")).lower()
 
-if open_noip == "y":
-    print(f"\n  {white}> {magenta}Opening {white}noip.com")
-    web.open_new_tab("https://www.noip.com/download?page=win")
+os.system('cls')
+sys.stdout.write(aligner(read_me, read_me_colored))
 
-print(f"\n  {white}> {magenta}The following step is {white}not required {magenta}to host a minecraft server if you are either {white}port forwarding {magenta}or using {white}noip.com's {magenta}Dynamic DNS Update Client{white}.")
-download_ngrok = str(input(f"  {white}> {magenta}Do you want to download {white}ngrok{magenta}? {white}[ {magenta}y {white}/ {magenta}n {white}]: {magenta}")).lower()
+# hosting method
 
+print(f"\n  {white}> {magenta}Great! Now you need to pick a {white}host{magenta} for your mc server{white}!")
+print(f"\n  {white}> {magenta}If you are {white}experienced {magenta}and would like to use {white}port forwarding {magenta}/ {white}alternative hosting methods {magenta}[ no-ip / ngrok (discouraged) ] on your own, Choose Option 1.")
+print(f"\n  {white}> {magenta}If you are {white}new {magenta}to hosting and would like to quickly host a server with {white}playit.gg{magenta}'s tunnel, Choose Option 2.")
+
+playit = int(input(f"\n  {white}> {magenta}Choice {white}[ {magenta}1 {white}/ {magenta}2 {white}]: {magenta}"))
+
+if playit == 2:
+    playit = True
+else:
+    playit = False
+    
 # go to workspace
 
 original_name = name
@@ -192,16 +155,16 @@ original_name = name
 try:
     os.mkdir(name)
 except:
-    print(f"\n  {white}> {red}The folder {white}{name} {red}already exists thus can't be created{white}! {red}Creating {white}{name} 2{red}...")
-    name+= " 2"
+    print(f"\n  {white}> {red}The folder {white}{name} {red}already exists thus can't be created{white}! {red}Creating {white}{name}_new{red}...")
+    name+= "_new"
     os.mkdir(name)
 
 os.system(f"explorer.exe \"{name}\"")
 os.chdir(name)
 
-# extract DankServerBuilder.zip
+# extract dsb_assets.zip
 
-zipfile.ZipFile(f"{filepath_temp}\DankServerBuilder.zip", 'r').extractall()
+zipfile.ZipFile(f"{filepath_temp}\dsb_assets.zip", 'r').extractall()
 
 # begin download phase
 
@@ -216,7 +179,7 @@ def downloader(url, filename):
     open(filename,"wb").write(data)
     data = ""
     print(f"\n  {white}> {magenta}Completed {white}{filename}{magenta}!")
-
+    
 # EssentialsX.jar
 
 response = requests.get(f"https://api.github.com/repos/EssentialsX/Essentials/releases").json()
@@ -269,12 +232,16 @@ build = str(build['builds'][-1])
 to_download_urls.append(f"https://papermc.io/api/v2/projects/paper/versions/{version}/builds/{build}/downloads/paper-{version}-{build}.jar")
 to_download_filenames.append("paperclip.jar")
 
-# ngrok-stable-windows-amd64.zip
+# playit.gg tunnel prorgram
 
-if download_ngrok == "y":
+if playit:
 
-    to_download_urls.append("https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-amd64.zip")
-    to_download_filenames.append("ngrok.zip")
+    response = requests.get("https://playit.gg/download/")
+    url = re.findall("https://playit.gg/downloads/playit-win[a-zA-Z0-9._-]+",str(response.content.decode()))
+    playit_filename = str(url[0]).split('/')[-1]
+
+    to_download_urls.append(str(url[0]))
+    to_download_filenames.append(playit_filename)
 
 # OpenJDK-16.msi
 
@@ -301,10 +268,10 @@ if download_jdk == "y":
     response = requests.get("https://api.adoptium.net/v3/assets/feature_releases/16/ga?architecture=x64&heap_size=normal&image_type=jdk&jvm_impl=hotspot&os=windows&page=0&page_size=10&project=jdk&sort_method=DEFAULT&sort_order=DESC&vendor=adoptium", headers=headers).json()
 
     installer_url = str(response[0]["binaries"][0]["installer"]["link"])
-    installer_filename = installer_url.split("/")[-1]
+    jdk_filename = installer_url.split("/")[-1]
 
     to_download_urls.append(installer_url)
-    to_download_filenames.append(installer_filename)
+    to_download_filenames.append(jdk_filename)
 
 # begin downloads
 
@@ -357,72 +324,55 @@ java -Xms512M -Xmx{ram}M -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:MaxGC
 
 open("start_server.sh","wb").write(data.encode().replace(b'\r\n',b'\n'))
 
-if download_ngrok == "y":
-
-    data = '''@echo off
-title Ngrok Tunnel
-ngrok tcp 25565
-pause
-'''
-
-    open("start_only_ngrok.cmd","w").write(data)
-
-    data = f'''@echo off
+data = f'''@echo off
 color 0a
-title Minecraft Server Console [ {name} ]
-start start_only_ngrok.cmd
-java -Xms512M -Xmx{ram}M -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=100 -XX:+DisableExplicitGC -XX:TargetSurvivorRatio=90 -XX:G1NewSizePercent=50 -XX:G1MaxNewSizePercent=80 -XX:G1MixedGCLiveThresholdPercent=50 -XX:+AlwaysPreTouch -jar paperclip.jar -nogui
+title Minecraft Java Playit.gg Tunnel [ {name} ] Keep me running to allow players to join your server!
+start {playit_filename}
 pause
 '''
 
-    open("start_server_and_ngrok.cmd","w").write(data)
+open("start_tunnel.cmd","w").write(data)
 
 # begin installation phase
-
-if download_ngrok == "y":
-
-    zipfile.ZipFile("ngrok.zip", 'r').extractall()
-    os.remove("ngrok.zip")
-
-    print(f"\n  {white}> {magenta}Go to Authentication {white}> {magenta}Your Authtoken and click copy, then paste it here{white}.")
-    print(f"  {white}> {magenta}Opening {white}ngrok.com {magenta}in {white}15 {magenta}seconds.")
-
-    time.sleep(15)
-    web.open_new_tab("https://dashboard.ngrok.com/auth/your-authtoken")
-    ngrok_token = str(input(f"\n  {white}> {magenta}Ngrok Auth Token{white}: {magenta}"))
-    print()
-    os.system(f"ngrok.exe authtoken {ngrok_token}")
 
 if download_jdk == "y":
 
     print(f"\n  {white}> {magenta}Starting {white}OpenJDK-16.msi")
-    os.system(f"start {installer_filename}")
+    os.system(f"start {jdk_filename}")
 
     temp = str(input(f"\n  {white}> {magenta}Once you have sucessfully installed and closed {white}OpenJDK-16 {magenta}hit {white}[ {magenta}enter {white}] {magenta}to delete the installer{white}: {magenta}"))
-    os.remove(installer_filename)
+    os.remove(jdk_filename)
 
 os.system('cls')
 sys.stdout.write(aligner(read_me, read_me_colored))
 
-if download_ngrok == "y":
-    print(f"\n  {white}> {magenta}To start your server, run {white}start_server_and_ngrok.cmd")
-    print(f"  {white}> {magenta}To allow players to connect to your server over the internet, {white}ngrok {magenta}must be running. This is for if you do not wish to {white}port forward {magenta}or use {white}noip.com's {magenta}Dynamic DNS Update Client{white}.")
-    print(f"  {white}> {magenta}Your servers IP is shown in the ngrok window, it looks something like this {white}> {magenta}0.tcp.ngrok.io:00000 {white}< {magenta}last 5 digits will be random.")
-else:
-    print(f"\n  {white}> {magenta}To start your server, run {white}start_server.cmd")
+# one-time setup
 
-if open_noip == "y":
-    print(f"  {white}> {magenta}To allow players to connect to your server over the internet, follow this tutorial on using {white}noip{magenta}. This is for if you do not wish to {white}port forward {magenta}or use {white}ngrok.")
-    open_youtube = str(input(f"  {white}> {magenta}Do you want to open {white}noip tutorial {magenta}on {white}youtube{magenta}? {white}[ {magenta}y {white}/ {magenta}n {white}]: {magenta}")).lower()
+if playit:
+    
+    print(f"\n  {white}> {magenta}To allow players to connect to your server you first need to create a tunnel. Follow the steps on {white}imgur {magenta}and complete the {white}one-time setup{magenta}. Opening in 10s...")
+    time.sleep(10)
+    web.open_new_tab("https://imgur.com/a/W30s7bw")
+    time.sleep(3)
+    web.open_new_tab("https://playit.gg/manage")
+    
+    os.system('cls')
+    sys.stdout.write(aligner(read_me, read_me_colored))
+    
+    print(f"\n  {white}> {magenta}To start your server, run {white}start_server.cmd")
+    print(f"\n  {white}> {magenta}To start your tunnel so people can connect over the internet, run {white}start_tunnel.cmd")
+    
+    wait = print(f"\n  {white}> {magenta}After you have created a tunnel and read the above, press {white}[ ENTER ]")
+    
+else:
+    
+    print(f"\n  {white}> {magenta}As you have not selected {white}playit.gg{magenta}, To allow players to connect to your server over the internet, follow this tutorial on {white}port forwarding.")
+    open_youtube = str(input(f"  {white}> {magenta}Do you want to open {white}port forwarding tutorial {magenta}on {white}youtube{magenta}? {white}[ {magenta}y {white}/ {magenta}n {white}]: {magenta}")).lower()
 
     if open_youtube == "y":
-        web.open_new_tab("https://youtu.be/L9tbsra48c0")
+        web.open_new_tab("https://youtu.be/X75GbRaGzu8")
 
-print(f"\n  {white}> {magenta}To allow players to connect to your server over the internet, follow this tutorial on {white}port forwarding. {magenta}This is for if you do not wish to use {white}noip.com {magenta}or {white}ngrok.")
-open_youtube = str(input(f"  {white}> {magenta}Do you want to open {white}port forwarding tutorial {magenta}on {white}youtube{magenta}? {white}[ {magenta}y {white}/ {magenta}n {white}]: {magenta}")).lower()
-
-if open_youtube == "y":
-    web.open_new_tab("https://youtu.be/X75GbRaGzu8")
+# done!
 
 complete = f'''
 
