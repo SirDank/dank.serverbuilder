@@ -101,7 +101,7 @@ while not version_available:
     version_check()
 os.system(f"title dank.serverbuilder [ {name} ] [ {version} ]")
 
-ram = str(input(f"\n  {white}> {magenta}RAM in MB {white}[ {magenta}Above 512 {white}]: {magenta}"))
+ram = int(input(f"\n  {white}> {magenta}RAM in MB {white}[ {magenta}Above 512 {white}]: {magenta}"))
 
 if ram < 512:
     ram = 512

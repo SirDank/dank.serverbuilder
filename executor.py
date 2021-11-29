@@ -107,5 +107,5 @@ if __name__ == "__main__":
             if choice == "y":
                 download_latest()
         else:
-            print(f"\n{white}> {magenta}You are on the latest executor version, please report this bug.")
+            print(f"\n{white}> {magenta}You are on the latest executor version, please report this bug!")
 
