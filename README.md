@@ -16,4 +16,5 @@ Note: The exe might be flagged as malware, since it has been written in python. 
 
 Preview:
 
-![image](https://user-images.githubusercontent.com/52797753/134666416-53221fc2-2070-469e-9adb-6e6323c7f844.png)
+<img width="678" alt="image" src="https://user-images.githubusercontent.com/52797753/143909611-d3f939ea-6af0-42b9-b0a0-ee7161f4dcfb.png">
+
