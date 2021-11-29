@@ -10,6 +10,7 @@ import time
 import random
 import zipfile
 import requests
+import webbrowser as web
 import concurrent.futures
 from colorama import init, Fore, Style
 
@@ -362,11 +363,12 @@ if playit:
     
     print(f"\n  {white}> {magenta}To allow players to connect to your server you first need to create a tunnel.")
     print(f"\n  {white}> {magenta}Follow the steps on {white}imgur {magenta}and complete the {white}one-time setup{magenta}.")
+    print(f"\n  {white}> {magenta}If it does not open, please go to {white}https://imgur.com/a/W30s7bw {magenta}and {white}https://playit.gg/manage {magenta}manually.")
     print(f"\n  {white}> {magenta}Opening in 10s...")
     time.sleep(10)
-    os.system("start https://imgur.com/a/W30s7bw")
-    time.sleep(3)
-    os.system("start https://playit.gg/manage")
+    web.open_new_tab("https://imgur.com/a/W30s7bw")
+    time.sleep(10)
+    web.open_new_tab("https://playit.gg/manage")
     
     os.system('cls')
     sys.stdout.write(aligner(read_me, read_me_colored))
@@ -382,7 +384,7 @@ else:
     open_youtube = str(input(f"  {white}> {magenta}Do you want to open {white}port forwarding tutorial {magenta}on {white}youtube{magenta}? {white}[ {magenta}y {white}/ {magenta}n {white}]: {magenta}")).lower()
 
     if open_youtube == "y":
-        os.system("start https://youtu.be/X75GbRaGzu8")
+        web.open_new_tab("https://youtu.be/X75GbRaGzu8")
 
 # done!
 
@@ -417,4 +419,4 @@ complete_colored = (red + complete).splitlines()
 os.system('cls')
 sys.stdout.write(aligner(complete, complete_colored))
 time.sleep(3)
-os.system("start https://allmylinks.com/sir-dankenstein")
+web.open_new_tab("https://allmylinks.com/sir-dankenstein")

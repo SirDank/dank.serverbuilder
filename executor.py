@@ -3,6 +3,7 @@
 import re
 import random
 import zipfile
+import webbrowser as web
 import concurrent.futures
 
 # required imports for executor
