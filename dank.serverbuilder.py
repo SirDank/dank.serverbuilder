@@ -10,7 +10,6 @@ import time
 import random
 import zipfile
 import requests
-import webbrowser as web
 import concurrent.futures
 from colorama import init, Fore, Style
 
@@ -345,9 +344,9 @@ open("start_tunnel.cmd","w").write(data)
 if download_jdk == "y":
 
     print(f"\n  {white}> {magenta}Starting {white}OpenJDK-16.msi")
-    time.sleep(5)
+    time.sleep(3)
     try:
-        os.system(f"start {jdk_filename}")
+        os.startfile(jdk_filename)
     except:
         print(f"\n  {white}> {red}Failed! Please run {white}{jdk_filename} {red}manually!")
 
@@ -365,10 +364,8 @@ if playit:
     print(f"\n  {white}> {magenta}Follow the steps on {white}imgur {magenta}and complete the {white}one-time setup{magenta}.")
     print(f"\n  {white}> {magenta}Opening in 10s...")
     time.sleep(10)
-    #web.open("https://imgur.com/a/W30s7bw")
     os.system("start https://imgur.com/a/W30s7bw")
     time.sleep(3)
-    #web.open("https://playit.gg/manage")
     os.system("start https://playit.gg/manage")
     
     os.system('cls')
@@ -377,7 +374,7 @@ if playit:
     print(f"\n  {white}> {magenta}To start your server, run {white}start_server.cmd")
     print(f"\n  {white}> {magenta}To start your tunnel so people can connect over the internet, run {white}start_tunnel.cmd")
     
-    wait = input(f"\n  {white}> {magenta}After you have read the above and created a tunnel, press {white}[ ENTER ]")
+    wait = input(f"\n  {white}> {magenta}After you have read the above and created a tunnel, press {white}[ ENTER ] ")
     
 else:
     
@@ -385,7 +382,6 @@ else:
     open_youtube = str(input(f"  {white}> {magenta}Do you want to open {white}port forwarding tutorial {magenta}on {white}youtube{magenta}? {white}[ {magenta}y {white}/ {magenta}n {white}]: {magenta}")).lower()
 
     if open_youtube == "y":
-        #web.open("https://youtu.be/X75GbRaGzu8")
         os.system("start https://youtu.be/X75GbRaGzu8")
 
 # done!
@@ -421,5 +417,4 @@ complete_colored = (red + complete).splitlines()
 os.system('cls')
 sys.stdout.write(aligner(complete, complete_colored))
 time.sleep(3)
-#web.open("https://allmylinks.com/sir-dankenstein")
 os.system("start https://allmylinks.com/sir-dankenstein")
