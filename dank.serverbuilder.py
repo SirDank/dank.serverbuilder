@@ -99,7 +99,7 @@ while not version_available:
     print(f"\n  {white}> {red}That version is not supported{white}!")
     version = str(input(f"\n  {white}> {magenta}Version{white}: {magenta}"))
     version_check()
-os.system(f"title dank.serverbuilder [ {name} ] [ {version} ]")
+os.system(f"title dank.serverbuilder [ {name} - {version} ]")
 
 ram = int(input(f"\n  {white}> {magenta}RAM in MB {white}[ {magenta}Above 512 {white}]: {magenta}"))
 
@@ -131,7 +131,7 @@ sys.stdout.write(aligner(read_me, read_me_colored))
 print(f"\n  {white}> {magenta}The below program step is {white}required {magenta}to run a minecraft paper server of version 1{white}.{magenta}17 and above!")
 print(f"\n  {white}> {magenta}Only needs to be installed once!")
 print(f"\n  {white}> {magenta}If you do not know / are unsure / never installed jre, type {white}\"{magenta}y{white}\"")
-download_jdk = str(input(f"  {white}> {magenta}Do you want to download {white}OpenJDK-16{magenta}? {white}[ {magenta}y {white}/ {magenta}n {white}]: {magenta}")).lower()
+download_jdk = str(input(f"\n  {white}> {magenta}Do you want to download {white}OpenJDK-16{magenta}? {white}[ {magenta}y {white}/ {magenta}n {white}]: {magenta}")).lower()
 
 os.system('cls')
 sys.stdout.write(aligner(read_me, read_me_colored))
@@ -139,7 +139,7 @@ sys.stdout.write(aligner(read_me, read_me_colored))
 # hosting method
 
 print(f"\n  {white}> {magenta}Great! Now you need to pick a {white}host{magenta} for your mc server{white}!")
-print(f"\n  {white}> {magenta}If you are {white}experienced {magenta}and would like to use {white}port forwarding {magenta}/ {white}alternative hosting methods, Choose {white}Option 1{magenta}.")
+print(f"\n  {white}> {magenta}If you are {white}experienced {magenta}and would like to use {white}port forwarding {magenta}/ {white}alternative hosting methods, {magenta}Choose {white}Option 1{magenta}.")
 print(f"\n  {white}> {magenta}If you are {white}new {magenta}to hosting and would like to quickly host a server with {white}playit.gg{magenta}'s tunnel, Choose {white}Option 2{magenta}.")
 
 playit = int(input(f"\n  {white}> {magenta}Choice {white}[ {magenta}1 {white}/ {magenta}2 {white}]: {magenta}"))
@@ -176,10 +176,16 @@ to_download_urls = []
 to_download_filenames = []
 
 def downloader(url, filename):
-    data = requests.get(url, allow_redirects=True).content
-    open(filename,"wb").write(data)
-    data = ""
-    print(f"\n  {white}> {magenta}Completed {white}{filename}{magenta}!")
+    Success = False
+    while not Success:
+        try:
+            data = requests.get(url, allow_redirects=True).content
+            open(filename,"wb").write(data)
+            data = ""
+            print(f"\n  {white}> {magenta}Completed {white}{filename}{magenta}!")
+            Success = True
+        except:
+            retry = input(f"\n  {white}> {red}Failed {white}{filename}{red}! Press {white}ENTER {red}to try again!")
     
 # EssentialsX.jar
 
@@ -328,7 +334,7 @@ open("start_server.sh","wb").write(data.encode().replace(b'\r\n',b'\n'))
 data = f'''@echo off
 color 0a
 title Minecraft Java Playit.gg Tunnel [ {name} ] Keep me running to allow players to join your server!
-start {playit_filename}
+{playit_filename}
 pause
 '''
 
@@ -339,8 +345,11 @@ open("start_tunnel.cmd","w").write(data)
 if download_jdk == "y":
 
     print(f"\n  {white}> {magenta}Starting {white}OpenJDK-16.msi")
-    time.sleep(3)
-    os.system(f"start {jdk_filename}")
+    time.sleep(5)
+    try:
+        os.system(f"start {jdk_filename}")
+    except:
+        print(f"\n  {white}> {red}Failed! Please run {white}{jdk_filename} {red}manually!")
 
     temp = str(input(f"\n  {white}> {magenta}Once you have sucessfully installed and closed {white}OpenJDK-16 {magenta}hit {white}[ {magenta}enter {white}] {magenta}to delete the installer{white}: {magenta}"))
     os.remove(jdk_filename)
@@ -356,9 +365,11 @@ if playit:
     print(f"\n  {white}> {magenta}Follow the steps on {white}imgur {magenta}and complete the {white}one-time setup{magenta}.")
     print(f"\n  {white}> {magenta}Opening in 10s...")
     time.sleep(10)
-    web.open("https://imgur.com/a/W30s7bw")
+    #web.open("https://imgur.com/a/W30s7bw")
+    os.system("start https://imgur.com/a/W30s7bw")
     time.sleep(3)
-    web.open("https://playit.gg/manage")
+    #web.open("https://playit.gg/manage")
+    os.system("start https://playit.gg/manage")
     
     os.system('cls')
     sys.stdout.write(aligner(read_me, read_me_colored))
@@ -374,9 +385,12 @@ else:
     open_youtube = str(input(f"  {white}> {magenta}Do you want to open {white}port forwarding tutorial {magenta}on {white}youtube{magenta}? {white}[ {magenta}y {white}/ {magenta}n {white}]: {magenta}")).lower()
 
     if open_youtube == "y":
-        web.open("https://youtu.be/X75GbRaGzu8")
+        #web.open("https://youtu.be/X75GbRaGzu8")
+        os.system("start https://youtu.be/X75GbRaGzu8")
 
 # done!
+
+os.system(f"title dank.serverbuilder [ complete! ]")
 
 complete = f'''
 
@@ -406,5 +420,6 @@ complete_colored = (red + complete).splitlines()
 
 os.system('cls')
 sys.stdout.write(aligner(complete, complete_colored))
-time.sleep(5)
-web.open("https://allmylinks.com/sir-dankenstein")
+time.sleep(3)
+#web.open("https://allmylinks.com/sir-dankenstein")
+os.system("start https://allmylinks.com/sir-dankenstein")
