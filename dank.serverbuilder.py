@@ -128,8 +128,9 @@ sys.stdout.write(aligner(read_me, read_me_colored))
 
 # JDK input
 
-print(f"\n  {white}> {magenta}The below program step is {white}required {magenta}to run a minecraft paper server of version 1{white}.{magenta}17 and above{white}! Only needs to be done once!")
-print(f"{white}> {magenta}If you do not know / are unsure / never installed jre, type {white}\"{magenta}y{white}\"")
+print(f"\n  {white}> {magenta}The below program step is {white}required {magenta}to run a minecraft paper server of version 1{white}.{magenta}17 and above!")
+print(f"\n  {white}> {magenta}Only needs to be installed once!")
+print(f"\n  {white}> {magenta}If you do not know / are unsure / never installed jre, type {white}\"{magenta}y{white}\"")
 download_jdk = str(input(f"  {white}> {magenta}Do you want to download {white}OpenJDK-16{magenta}? {white}[ {magenta}y {white}/ {magenta}n {white}]: {magenta}")).lower()
 
 os.system('cls')
@@ -138,8 +139,8 @@ sys.stdout.write(aligner(read_me, read_me_colored))
 # hosting method
 
 print(f"\n  {white}> {magenta}Great! Now you need to pick a {white}host{magenta} for your mc server{white}!")
-print(f"\n  {white}> {magenta}If you are {white}experienced {magenta}and would like to use {white}port forwarding {magenta}/ {white}alternative hosting methods {magenta}[ no-ip / ngrok (discouraged) ] on your own, Choose Option 1.")
-print(f"\n  {white}> {magenta}If you are {white}new {magenta}to hosting and would like to quickly host a server with {white}playit.gg{magenta}'s tunnel, Choose Option 2.")
+print(f"\n  {white}> {magenta}If you are {white}experienced {magenta}and would like to use {white}port forwarding {magenta}/ {white}alternative hosting methods, Choose {white}Option 1{magenta}.")
+print(f"\n  {white}> {magenta}If you are {white}new {magenta}to hosting and would like to quickly host a server with {white}playit.gg{magenta}'s tunnel, Choose {white}Option 2{magenta}.")
 
 playit = int(input(f"\n  {white}> {magenta}Choice {white}[ {magenta}1 {white}/ {magenta}2 {white}]: {magenta}"))
 
@@ -338,6 +339,7 @@ open("start_tunnel.cmd","w").write(data)
 if download_jdk == "y":
 
     print(f"\n  {white}> {magenta}Starting {white}OpenJDK-16.msi")
+    time.sleep(3)
     os.system(f"start {jdk_filename}")
 
     temp = str(input(f"\n  {white}> {magenta}Once you have sucessfully installed and closed {white}OpenJDK-16 {magenta}hit {white}[ {magenta}enter {white}] {magenta}to delete the installer{white}: {magenta}"))
@@ -350,11 +352,13 @@ sys.stdout.write(aligner(read_me, read_me_colored))
 
 if playit:
     
-    print(f"\n  {white}> {magenta}To allow players to connect to your server you first need to create a tunnel. Follow the steps on {white}imgur {magenta}and complete the {white}one-time setup{magenta}. Opening in 10s...")
+    print(f"\n  {white}> {magenta}To allow players to connect to your server you first need to create a tunnel.")
+    print(f"\n  {white}> {magenta}Follow the steps on {white}imgur {magenta}and complete the {white}one-time setup{magenta}.")
+    print(f"\n  {white}> {magenta}Opening in 10s...")
     time.sleep(10)
-    web.open_new_tab("https://imgur.com/a/W30s7bw")
+    web.open("https://imgur.com/a/W30s7bw")
     time.sleep(3)
-    web.open_new_tab("https://playit.gg/manage")
+    web.open("https://playit.gg/manage")
     
     os.system('cls')
     sys.stdout.write(aligner(read_me, read_me_colored))
@@ -362,7 +366,7 @@ if playit:
     print(f"\n  {white}> {magenta}To start your server, run {white}start_server.cmd")
     print(f"\n  {white}> {magenta}To start your tunnel so people can connect over the internet, run {white}start_tunnel.cmd")
     
-    wait = print(f"\n  {white}> {magenta}After you have created a tunnel and read the above, press {white}[ ENTER ]")
+    wait = input(f"\n  {white}> {magenta}After you have read the above and created a tunnel, press {white}[ ENTER ]")
     
 else:
     
@@ -370,7 +374,7 @@ else:
     open_youtube = str(input(f"  {white}> {magenta}Do you want to open {white}port forwarding tutorial {magenta}on {white}youtube{magenta}? {white}[ {magenta}y {white}/ {magenta}n {white}]: {magenta}")).lower()
 
     if open_youtube == "y":
-        web.open_new_tab("https://youtu.be/X75GbRaGzu8")
+        web.open("https://youtu.be/X75GbRaGzu8")
 
 # done!
 
@@ -403,4 +407,4 @@ complete_colored = (red + complete).splitlines()
 os.system('cls')
 sys.stdout.write(aligner(complete, complete_colored))
 time.sleep(5)
-web.open_new_tab("https://allmylinks.com/sir-dankenstein")
+web.open("https://allmylinks.com/sir-dankenstein")
