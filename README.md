@@ -1,5 +1,3 @@
-🛑 WILL PATCH THE BUG SOON!
-
 Short URL > http://bit.ly/dank-serverbuilder
 
 Direct Download > http://bit.ly/dank-serverbuilder-direct2
