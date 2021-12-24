@@ -28,6 +28,7 @@ magenta = Fore.MAGENTA + Style.BRIGHT
 red = Fore.RED + Style.BRIGHT
 cyan = Fore.CYAN + Style.BRIGHT
 green = Fore.GREEN + Style.BRIGHT
+yellow = Fore.YELLOW + Style.BRIGHT
 
 # print banner
 
@@ -280,6 +281,37 @@ if download_jdk == "y":
     to_download_urls.append(installer_url)
     to_download_filenames.append(jdk_filename)
 
+# log4j exploit patch
+
+log4j = f'''
+
+{red}888                       {yellow}    d8888  {red}         888               888 888 
+{red}888                       {yellow}   d8P888  {red}         888               888 888 
+{red}888                       {yellow}  d8P 888  {red}         888               888 888 
+{red}888      .d88b.   .d88b.  {yellow} d8P  888  {red}.d8888b  88888b.   .d88b.  888 888 
+{red}888     d88""88b d88P"88b {yellow}d88   888  {red}88K      888 "88b d8P  Y8b 888 888 
+{red}888     888  888 888  888 {yellow}8888888888 {red}"Y8888b. 888  888 88888888 888 888 
+{red}888     Y88..88P Y88b 888 {yellow}      888  {red}     X88 888  888 Y8b.     888 888 
+{red}88888888 "Y88P"   "Y88888 {yellow}      888  {red} 88888P' 888  888  "Y8888  888 888 
+{red}                      888                                               
+{red}                 Y8b d88P                                               
+{red}                  "Y88P"                                                
+
+'''
+
+if ( "1.17" or "1.18" ) in version:
+    extra_flag = "-Dlog4j2.formatMsgNoLookups=true "
+elif ( "1.12" or "1.13" or "1.14" or "1.15" or "1.16" ) in version:
+    extra_flag = "-Dlog4j.configurationFile=log4j2_112-116.xml "
+    to_download_urls.append("https://launcher.mojang.com/v1/objects/02937d122c86ce73319ef9975b58896fc1b491d1/log4j2_112-116.xml")
+    to_download_filenames.append("log4j2_112-116.xml")
+elif ( "1.7" or "1.8" or "1.9" or "1.10" or "1.11" ) in version:
+    extra_flag = "-Dlog4j.configurationFile=log4j2_17-111.xml "
+    to_download_urls.append("https://launcher.mojang.com/v1/objects/4bb89a97a66f350bc9f73b3ca8509632682aea2e/log4j2_17-111.xml")
+    to_download_filenames.append("log4j2_17-111.xml")
+else:
+    extra_flag = ""
+
 # begin downloads
 
 print(f"\n  {white}> {magenta}Starting Multiple Downloads{white}... [ {magenta}this might take a minute {white}]")
@@ -319,14 +351,14 @@ print(f"\n  {white}> {magenta}Creating batch scripts...")
 data = f'''@echo off
 color 0a
 title Minecraft Server Console [ {name} ]
-java -Xms512M -Xmx{ram}M -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=100 -XX:+DisableExplicitGC -XX:TargetSurvivorRatio=90 -XX:G1NewSizePercent=50 -XX:G1MaxNewSizePercent=80 -XX:G1MixedGCLiveThresholdPercent=50 -XX:+AlwaysPreTouch -jar paperclip.jar -nogui
+java -Xms512M -Xmx{ram}M -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=100 -XX:+DisableExplicitGC -XX:TargetSurvivorRatio=90 -XX:G1NewSizePercent=50 -XX:G1MaxNewSizePercent=80 -XX:G1MixedGCLiveThresholdPercent=50 -XX:+AlwaysPreTouch {extra_flag}-jar paperclip.jar -nogui
 pause
 '''
 
 open("start_server.cmd","w").write(data)
 
 data = f'''#!/bin/sh
-java -Xms512M -Xmx{ram}M -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=100 -XX:+DisableExplicitGC -XX:TargetSurvivorRatio=90 -XX:G1NewSizePercent=50 -XX:G1MaxNewSizePercent=80 -XX:G1MixedGCLiveThresholdPercent=50 -XX:+AlwaysPreTouch -jar paperclip.jar -nogui
+java -Xms512M -Xmx{ram}M -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=100 -XX:+DisableExplicitGC -XX:TargetSurvivorRatio=90 -XX:G1NewSizePercent=50 -XX:G1MaxNewSizePercent=80 -XX:G1MixedGCLiveThresholdPercent=50 -XX:+AlwaysPreTouch {extra_flag}-jar paperclip.jar -nogui
 '''
 
 open("start_server.sh","wb").write(data.encode().replace(b'\r\n',b'\n'))
@@ -339,6 +371,14 @@ pause
 '''
 
 open("start_tunnel.cmd","w").write(data)
+
+# log4j notice
+
+os.system('cls')
+sys.stdout.write(aligner(log4j.replace(red,"").replace(yellow,""), log4j))
+print(f"\n  {white}> {magenta}Minecraft servers built with {white}dank.serverbuilder {magenta}are protected from the {red}log{yellow}4{red}shell {magenta}exploit!")
+time.sleep(10)
+os.system('cls')
 
 # begin installation phase
 
@@ -369,13 +409,8 @@ if playit:
     web.open_new_tab("https://imgur.com/a/W30s7bw")
     time.sleep(10)
     web.open_new_tab("https://playit.gg/manage")
-    
-    os.system('cls')
-    sys.stdout.write(aligner(read_me, read_me_colored))
-    
     print(f"\n  {white}> {magenta}To start your server, run {white}start_server.cmd")
     print(f"\n  {white}> {magenta}To start your tunnel so people can connect over the internet, run {white}start_tunnel.cmd")
-    
     wait = input(f"\n  {white}> {magenta}After you have read the above and created a tunnel, press {white}[ ENTER ] ")
     
 else:
