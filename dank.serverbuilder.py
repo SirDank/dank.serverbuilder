@@ -363,19 +363,21 @@ java -Xms512M -Xmx{ram}M -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions -XX:MaxGC
 
 open("start_server.sh","wb").write(data.encode().replace(b'\r\n',b'\n'))
 
-data = f'''@echo off
-color 0a
-title Minecraft Java Playit.gg Tunnel [ {name} ] Keep me running to allow players to join your server!
-{playit_filename}
-pause
-'''
+if playit:
 
-open("start_tunnel.cmd","w").write(data)
+    data = f'''@echo off
+    color 0a
+    title Minecraft Java Playit.gg Tunnel [ {name} ] Keep me running to allow players to join your server!
+    {playit_filename}
+    pause
+    '''
+
+    open("start_tunnel.cmd","w").write(data)
 
 # log4j notice
 
 os.system('cls')
-sys.stdout.write(aligner(log4j.replace(red,"").replace(yellow,""), log4j))
+sys.stdout.write(aligner(log4j.replace(red,"").replace(yellow,""), log4j.splitlines()))
 print(f"\n  {white}> {magenta}Minecraft servers built with {white}dank.serverbuilder {magenta}are protected from the {red}log{yellow}4{red}shell {magenta}exploit!")
 time.sleep(10)
 os.system('cls')
