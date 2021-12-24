@@ -299,13 +299,13 @@ log4j = f'''
 
 '''
 
-if ( "1.17" or "1.18" ) in version:
+if "1.17" or "1.18" in version:
     extra_flag = "-Dlog4j2.formatMsgNoLookups=true "
-elif ( "1.12" or "1.13" or "1.14" or "1.15" or "1.16" ) in version:
+elif "1.12" or "1.13" or "1.14" or "1.15" or "1.16" in version:
     extra_flag = "-Dlog4j.configurationFile=log4j2_112-116.xml "
     log4j_patch = b'<?xml version="1.0" encoding="UTF-8"?>\n<Configuration status="WARN">\n    <Appenders>\n        <Console name="SysOut" target="SYSTEM_OUT">\n            <PatternLayout pattern="[%d{HH:mm:ss}] [%t/%level]: %msg{nolookups}%n" />\n        </Console>\n        <Queue name="ServerGuiConsole">\n            <PatternLayout pattern="[%d{HH:mm:ss} %level]: %msg{nolookups}%n" />\n        </Queue>\n        <RollingRandomAccessFile name="File" fileName="logs/latest.log" filePattern="logs/%d{yyyy-MM-dd}-%i.log.gz">\n            <PatternLayout pattern="[%d{HH:mm:ss}] [%t/%level]: %msg{nolookups}%n" />\n            <Policies>\n                <TimeBasedTriggeringPolicy />\n                <OnStartupTriggeringPolicy />\n            </Policies>\n        </RollingRandomAccessFile>\n    </Appenders>\n    <Loggers>\n        <Root level="info">\n            <filters>\n                <MarkerFilter marker="NETWORK_PACKETS" onMatch="DENY" onMismatch="NEUTRAL" />\n            </filters>\n            <AppenderRef ref="SysOut"/>\n            <AppenderRef ref="File"/>\n            <AppenderRef ref="ServerGuiConsole"/>\n        </Root>\n    </Loggers>\n</Configuration>\n'
     open("log4j2_112-116.xml","wb+").write(log4j_patch)
-elif ( "1.7" or "1.8" or "1.9" or "1.10" or "1.11" ) in version:
+elif "1.7" or "1.8" or "1.9" or "1.10" or "1.11" in version:
     extra_flag = "-Dlog4j.configurationFile=log4j2_17-111.xml "
     log4j_patch = b'<?xml version="1.0" encoding="UTF-8"?>\n<Configuration status="WARN" packages="com.mojang.util">\n    <Appenders>\n        <Console name="SysOut" target="SYSTEM_OUT">\n            <PatternLayout pattern="[%d{HH:mm:ss}] [%t/%level]: %msg%n" />\n        </Console>\n        <Queue name="ServerGuiConsole">\n            <PatternLayout pattern="[%d{HH:mm:ss} %level]: %msg%n" />\n        </Queue>\n        <RollingRandomAccessFile name="File" fileName="logs/latest.log" filePattern="logs/%d{yyyy-MM-dd}-%i.log.gz">\n            <PatternLayout pattern="[%d{HH:mm:ss}] [%t/%level]: %msg%n" />\n            <Policies>\n                <TimeBasedTriggeringPolicy />\n                <OnStartupTriggeringPolicy />\n            </Policies>\n        </RollingRandomAccessFile>\n    </Appenders>\n    <Loggers>\n        <Root level="info">\n            <filters>\n                <MarkerFilter marker="NETWORK_PACKETS" onMatch="DENY" onMismatch="NEUTRAL" />\n                <RegexFilter regex="(?s).*\\$\\{[^}]*\\}.*" onMatch="DENY" onMismatch="NEUTRAL"/>\n            </filters>\n            <AppenderRef ref="SysOut"/>\n            <AppenderRef ref="File"/>\n            <AppenderRef ref="ServerGuiConsole"/>\n        </Root>\n    </Loggers>\n</Configuration>'
     open("log4j2_17-111.xml","wb+").write(log4j_patch)
@@ -373,6 +373,8 @@ if playit:
     '''
 
     open("start_tunnel.cmd","w").write(data)
+
+time.sleep(5)
 
 # log4j notice
 
