@@ -158,7 +158,8 @@ os.chdir(name)
 
 # downlaod & extract dsb_assets.zip from github
 
-open("dsb_assets.zip","wb").write(requests.get("https://github.com/SirDankenstien/dank.serverbuilder/raw/main/assets/dsb_assets.zip", allow_redirects=True).content)
+data = requests.get("https://github.com/SirDankenstien/dank.serverbuilder/raw/main/assets/dsb_assets.zip", allow_redirects=True).content
+open("dsb_assets.zip","wb").write(data)
 zipfile.ZipFile(f"dsb_assets.zip", 'r').extractall()
 time.sleep(3)
 os.remove("dsb_assets.zip")
