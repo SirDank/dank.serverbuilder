@@ -10,17 +10,13 @@ import time
 import random
 import zipfile
 import requests
-import webbrowser as web
 import concurrent.futures
 from colorama import init, Fore, Style
 
-try:
-    #filepath = os.path.dirname(__file__) # as .py
-    filepath = os.path.dirname(sys.argv[0]) # as .exe
-    filepath_temp = os.path.dirname(__file__) # for .exe
-    os.chdir(filepath)
-except:
-    pass
+#filepath = os.path.dirname(__file__) # as .py
+filepath = os.path.dirname(sys.argv[0]) # as .exe
+filepath_temp = os.path.dirname(__file__) # for .exe
+os.chdir(filepath)
 
 init(autoreset=True)
 white = Fore.WHITE + Style.BRIGHT
@@ -104,8 +100,7 @@ os.system(f"title dank.serverbuilder [ {name} - {version} ]")
 
 ram = int(input(f"\n  {white}> {magenta}RAM in MB {white}[ {magenta}Above 512 {white}]: {magenta}"))
 
-if ram < 512:
-    ram = 512
+if ram < 512:ram = 512
 
 offline = str(input(f"\n  {white}> {magenta}Allow Cracked Players {white}[ {magenta}y {white}/ {magenta}n {white}]: {magenta}"))
 
@@ -129,10 +124,10 @@ sys.stdout.write(aligner(read_me, read_me_colored))
 
 # JDK input
 
-print(f"\n  {white}> {magenta}The below program step is {white}required {magenta}to run a minecraft paper server of version 1{white}.{magenta}17 and above!")
+print(f"\n  {white}> {magenta}The below program step is {white}required {magenta}to run a minecraft paper server of version 1{white}.{magenta}18 and above!")
 print(f"\n  {white}> {magenta}Only needs to be installed once!")
-print(f"\n  {white}> {magenta}If you do not know / are unsure / never installed jre, type {white}\"{magenta}y{white}\"")
-download_jdk = str(input(f"\n  {white}> {magenta}Do you want to download {white}OpenJDK-16{magenta}? {white}[ {magenta}y {white}/ {magenta}n {white}]: {magenta}")).lower()
+print(f"\n  {white}> {magenta}If you do not know / are unsure / never installed JDK, type {white}\"{magenta}y{white}\"")
+download_jdk = str(input(f"\n  {white}> {magenta}Do you want to download {white}OpenJDK-17{magenta}? {white}[ {magenta}y {white}/ {magenta}n {white}]: {magenta}")).lower()
 
 os.system('cls')
 sys.stdout.write(aligner(read_me, read_me_colored))
@@ -140,22 +135,19 @@ sys.stdout.write(aligner(read_me, read_me_colored))
 # hosting method
 
 print(f"\n  {white}> {magenta}Great! Now you need to pick a {white}host{magenta} for your mc server{white}!")
-print(f"\n  {white}> {magenta}If you are {white}experienced {magenta}and would like to use {white}port forwarding {magenta}/ {white}alternative hosting methods, {magenta}Choose {white}Option 1{magenta}.")
+print(f"\n  {white}> {magenta}If you are {white}experienced {magenta}and would like to skip playit.gg and use {white}port forwarding {magenta}/ {white}alternative hosting methods, {magenta}Choose {white}Option 1{magenta}.")
 print(f"\n  {white}> {magenta}If you are {white}new {magenta}to hosting and would like to quickly host a server with {white}playit.gg{magenta}'s tunnel, Choose {white}Option 2{magenta}.")
 
 playit = int(input(f"\n  {white}> {magenta}Choice {white}[ {magenta}1 {white}/ {magenta}2 {white}]: {magenta}"))
 
-if playit == 2:
-    playit = True
-else:
-    playit = False
+if playit == 2:playit = True
+else:playit = False
     
 # go to workspace
 
 original_name = name
 
-try:
-    os.mkdir(name)
+try:os.mkdir(name)
 except:
     print(f"\n  {white}> {red}The folder {white}{name} {red}already exists thus can't be created{white}! {red}Creating {white}{name}_new{red}...")
     name+= "_new"
@@ -164,9 +156,12 @@ except:
 os.system(f"explorer.exe \"{name}\"")
 os.chdir(name)
 
-# extract dsb_assets.zip
+# downlaod & extract dsb_assets.zip from github
 
-zipfile.ZipFile(f"{filepath_temp}\dsb_assets.zip", 'r').extractall()
+open("dsb_assets.zip","wb").write(requests.get("https://github.com/SirDankenstien/dank.serverbuilder/raw/main/assets/dsb_assets.zip", allow_redirects=True).content)
+zipfile.ZipFile(f"dsb_assets.zip", 'r').extractall()
+time.sleep(3)
+os.remove("dsb_assets.zip")
 
 # begin download phase
 
@@ -192,7 +187,6 @@ def downloader(url, filename):
 
 response = requests.get(f"https://api.github.com/repos/EssentialsX/Essentials/releases").json()
 build = str(response[0]['tag_name'])
-
 to_download_urls.append(f"https://github.com/EssentialsX/Essentials/releases/download/{build}/EssentialsX-{build}.jar")
 to_download_filenames.append(f"plugins\EssentialsX-{build}.jar")
 
@@ -214,23 +208,26 @@ to_download_filenames.append(f"plugins\ProtocolLib.jar")
 # TAB.jar
 
 response = requests.get("https://api.github.com/repos/NEZNAMY/TAB/releases").json()
-
 to_download_urls.append(str(response[0]['assets'][0]['browser_download_url']))
 to_download_filenames.append(f"plugins\TAB.jar")
 
 # BetterSleeping.jar
 
 response = requests.get("https://api.github.com/repos/Nuytemans-Dieter/BetterSleeping/releases").json()
-
 to_download_urls.append(str(response[0]['assets'][0]['browser_download_url']))
 to_download_filenames.append(f"plugins\BetterSleeping.jar")
 
 # ActionHealth.jar
 
 response = requests.get("https://api.github.com/repos/zeshan321/ActionHealth/releases").json()
-
 to_download_urls.append(str(response[0]['assets'][0]['browser_download_url']))
 to_download_filenames.append(f"plugins\ActionHealth.jar")
+
+# Log4JExploitFix.jar
+
+response = requests.get("https://api.spiget.org/v2/resources/98243/versions/latest").json()
+to_download_urls.append(f"https://www.spigotmc.org/resources/log4jexploit-fix.98243/download?version={response['id']}")
+to_download_filenames.append(f"plugins\Log4JExploitFix.jar")
 
 # paperclip.jar
 
@@ -247,33 +244,16 @@ if playit:
     response = requests.get("https://playit.gg/download/")
     url = re.findall("https://playit.gg/downloads/playit-win[a-zA-Z0-9._-]+",str(response.content.decode()))
     playit_filename = str(url[0]).split('/')[-1]
-
     to_download_urls.append(str(url[0]))
     to_download_filenames.append(playit_filename)
 
-# OpenJDK-16.msi
+# OpenJDK.msi
 
 if download_jdk == "y":
 
     random_ua = str(random.choice(list(set(requests.get("https://raw.githubusercontent.com/DavidWittman/requests-random-user-agent/master/requests_random_user_agent/useragents.txt").content.decode().splitlines()))))
-
-    headers = {
-        "Host": "api.adoptium.net",
-        "Connection": "keep-alive",
-        "Cache-Control": "max-age=0",
-        "Upgrade-Insecure-Requests": "1",
-        "User-Agent": random_ua,
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-        "Sec-Fetch-Site": "none",
-        "Sec-Fetch-Mode": "navigate",
-        "Sec-Fetch-User": "?1",
-        "Sec-Fetch-Dest": "document",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US,en;q=0.9",
-        "X-Requested-With": "XMLHttpRequest"
-    }
-
-    response = requests.get("https://api.adoptium.net/v3/assets/feature_releases/16/ga?architecture=x64&heap_size=normal&image_type=jdk&jvm_impl=hotspot&os=windows&page=0&page_size=10&project=jdk&sort_method=DEFAULT&sort_order=DESC&vendor=adoptium", headers=headers).json()
+    headers = {"Host": "api.adoptium.net","Connection": "keep-alive","Cache-Control": "max-age=0","Upgrade-Insecure-Requests": "1","User-Agent": random_ua,"Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9","Sec-Fetch-Site": "none","Sec-Fetch-Mode": "navigate","Sec-Fetch-User": "?1","Sec-Fetch-Dest": "document","Accept-Encoding": "gzip, deflate, br","Accept-Language": "en-US,en;q=0.9","X-Requested-With": "XMLHttpRequest"}
+    response = requests.get("https://api.adoptium.net/v3/assets/feature_releases/17/ga?architecture=x64&heap_size=normal&image_type=jdk&jvm_impl=hotspot&os=windows&page=0&page_size=10&project=jdk&sort_method=DEFAULT&sort_order=DESC&vendor=eclipse", headers=headers).json()
 
     installer_url = str(response[0]["binaries"][0]["installer"]["link"])
     jdk_filename = installer_url.split("/")[-1]
@@ -299,18 +279,10 @@ log4j = f'''
 
 '''
 
-if "1.17" or "1.18" in version:
-    extra_flag = "-Dlog4j2.formatMsgNoLookups=true "
-elif "1.12" or "1.13" or "1.14" or "1.15" or "1.16" in version:
-    extra_flag = "-Dlog4j.configurationFile=log4j2_112-116.xml "
-    log4j_patch = '<?xml version="1.0" encoding="UTF-8"?>\n<Configuration status="WARN">\n    <Appenders>\n        <Console name="SysOut" target="SYSTEM_OUT">\n            <PatternLayout pattern="[%d{HH:mm:ss}] [%t/%level]: %msg{nolookups}%n" />\n        </Console>\n        <Queue name="ServerGuiConsole">\n            <PatternLayout pattern="[%d{HH:mm:ss} %level]: %msg{nolookups}%n" />\n        </Queue>\n        <RollingRandomAccessFile name="File" fileName="logs/latest.log" filePattern="logs/%d{yyyy-MM-dd}-%i.log.gz">\n            <PatternLayout pattern="[%d{HH:mm:ss}] [%t/%level]: %msg{nolookups}%n" />\n            <Policies>\n                <TimeBasedTriggeringPolicy />\n                <OnStartupTriggeringPolicy />\n            </Policies>\n        </RollingRandomAccessFile>\n    </Appenders>\n    <Loggers>\n        <Root level="info">\n            <filters>\n                <MarkerFilter marker="NETWORK_PACKETS" onMatch="DENY" onMismatch="NEUTRAL" />\n            </filters>\n            <AppenderRef ref="SysOut"/>\n            <AppenderRef ref="File"/>\n            <AppenderRef ref="ServerGuiConsole"/>\n        </Root>\n    </Loggers>\n</Configuration>\n'
-    open("log4j2_112-116.xml","w+").write(log4j_patch)
-elif "1.7" or "1.8" or "1.9" or "1.10" or "1.11" in version:
-    extra_flag = "-Dlog4j.configurationFile=log4j2_17-111.xml "
-    log4j_patch = '<?xml version="1.0" encoding="UTF-8"?>\n<Configuration status="WARN" packages="com.mojang.util">\n    <Appenders>\n        <Console name="SysOut" target="SYSTEM_OUT">\n            <PatternLayout pattern="[%d{HH:mm:ss}] [%t/%level]: %msg%n" />\n        </Console>\n        <Queue name="ServerGuiConsole">\n            <PatternLayout pattern="[%d{HH:mm:ss} %level]: %msg%n" />\n        </Queue>\n        <RollingRandomAccessFile name="File" fileName="logs/latest.log" filePattern="logs/%d{yyyy-MM-dd}-%i.log.gz">\n            <PatternLayout pattern="[%d{HH:mm:ss}] [%t/%level]: %msg%n" />\n            <Policies>\n                <TimeBasedTriggeringPolicy />\n                <OnStartupTriggeringPolicy />\n            </Policies>\n        </RollingRandomAccessFile>\n    </Appenders>\n    <Loggers>\n        <Root level="info">\n            <filters>\n                <MarkerFilter marker="NETWORK_PACKETS" onMatch="DENY" onMismatch="NEUTRAL" />\n                <RegexFilter regex="(?s).*\\$\\{[^}]*\\}.*" onMatch="DENY" onMismatch="NEUTRAL"/>\n            </filters>\n            <AppenderRef ref="SysOut"/>\n            <AppenderRef ref="File"/>\n            <AppenderRef ref="ServerGuiConsole"/>\n        </Root>\n    </Loggers>\n</Configuration>'
-    open("log4j2_17-111.xml","w+").write(log4j_patch)
-else:
-    extra_flag = ""
+if "1.17" or "1.18" in version:extra_flag = "-Dlog4j2.formatMsgNoLookups=true "
+elif "1.12" or "1.13" or "1.14" or "1.15" or "1.16" in version:extra_flag = "-Dlog4j.configurationFile=log4j2_112-116.xml "
+elif "1.7" or "1.8" or "1.9" or "1.10" or "1.11" in version:extra_flag = "-Dlog4j.configurationFile=log4j2_17-111.xml "
+else:extra_flag = ""
 
 # begin downloads
 
@@ -323,10 +295,8 @@ executor = concurrent.futures.ThreadPoolExecutor(max_workers=2)
 for i in range(len(to_download_urls)):
     futures.append(executor.submit(downloader, to_download_urls[i], to_download_filenames[i]))
 for future in concurrent.futures.as_completed(futures):
-    try:
-        future.result()
-    except:
-        pass
+    try:future.result()
+    except:pass
 futures.clear()
 
 time_taken = ( time.time() - start_time ) / 60
@@ -410,9 +380,9 @@ if playit:
     print(f"\n  {white}> {magenta}If it does not open, please go to {white}https://imgur.com/a/W30s7bw {magenta}and {white}https://playit.gg/manage {magenta}manually.")
     print(f"\n  {white}> {magenta}Opening in 10s...")
     time.sleep(10)
-    web.open_new_tab("https://imgur.com/a/W30s7bw")
+    os.system("start https://imgur.com/a/W30s7bw")
     time.sleep(10)
-    web.open_new_tab("https://playit.gg/manage")
+    os.system("start https://playit.gg/manage")
     print(f"\n  {white}> {magenta}To start your server, run {white}start_server.cmd")
     print(f"\n  {white}> {magenta}To start your tunnel so people can connect over the internet, run {white}start_tunnel.cmd")
     wait = input(f"\n  {white}> {magenta}After you have read the above and created a tunnel, press {white}[ ENTER ] ")
@@ -421,9 +391,7 @@ else:
     
     print(f"\n  {white}> {magenta}As you have not selected {white}playit.gg{magenta}, To allow players to connect to your server over the internet, follow this tutorial on {white}port forwarding.")
     open_youtube = str(input(f"  {white}> {magenta}Do you want to open {white}port forwarding tutorial {magenta}on {white}youtube{magenta}? {white}[ {magenta}y {white}/ {magenta}n {white}]: {magenta}")).lower()
-
-    if open_youtube == "y":
-        web.open_new_tab("https://youtu.be/X75GbRaGzu8")
+    if open_youtube == "y":os.system("start https://youtu.be/X75GbRaGzu8")
 
 # done!
 
@@ -453,9 +421,7 @@ complete = f'''
 
 '''
 
-complete_colored = (red + complete).splitlines()
-
 os.system('cls')
-sys.stdout.write(aligner(complete, complete_colored))
+sys.stdout.write(aligner(complete, (red + complete).splitlines()))
 time.sleep(3)
-web.open_new_tab("https://allmylinks.com/sir-dankenstein")
+os.system("start https://allmylinks.com/sir-dankenstein")

@@ -4,7 +4,7 @@ Direct Download > http://bit.ly/dank-serverbuilder-direct2
 
 Start Building your server by running > dank.serverbuilder.exe
 
-Note: if an update has been found, input "y" to download and run it
+Note: if an update has been found, input "y" to download and run it. log4j exploit has been patched!
 
 # Dank.ServerBuilder.exe
 A complete package for building and hosting a minecraft paper server on your windows system!
