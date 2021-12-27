@@ -1,7 +1,6 @@
 # Note: dank.serverbuilder.py is meant to be run as an .exe by default, if you would like to execute the script, make the below changes...
 #       - uncomment the following line > filepath = os.path.dirname(__file__) # as .py
 #       - comment the following line > filepath = os.path.dirname(sys.argv[0]) # as .exe
-#       - dsb_assets.zip is also required for this script to function properly! Make sure "filepath_temp" directs to its directory!
 
 import os
 import re
@@ -15,7 +14,6 @@ from colorama import init, Fore, Style
 
 #filepath = os.path.dirname(__file__) # as .py
 filepath = os.path.dirname(sys.argv[0]) # as .exe
-filepath_temp = os.path.dirname(__file__) # for .exe
 os.chdir(filepath)
 
 init(autoreset=True)
@@ -223,12 +221,6 @@ to_download_filenames.append(f"plugins\BetterSleeping.jar")
 response = requests.get("https://api.github.com/repos/zeshan321/ActionHealth/releases").json()
 to_download_urls.append(str(response[0]['assets'][0]['browser_download_url']))
 to_download_filenames.append(f"plugins\ActionHealth.jar")
-
-# Log4JExploitFix.jar
-
-response = requests.get("https://api.spiget.org/v2/resources/98243/versions/latest").json()
-to_download_urls.append(f"https://www.spigotmc.org/resources/log4jexploit-fix.98243/download?version={response['id']}")
-to_download_filenames.append(f"plugins\Log4JExploitFix.jar")
 
 # paperclip.jar
 

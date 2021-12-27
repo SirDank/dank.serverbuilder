@@ -20,11 +20,7 @@ os.system("title dank.serverbuilder [ initializing ]")
 
 init(autoreset=True)
 red = Fore.RED + Style.BRIGHT
-green = Fore.GREEN + Style.BRIGHT
-yellow = Fore.YELLOW + Style.BRIGHT
-blue = Fore.BLUE + Style.BRIGHT
 magenta = Fore.MAGENTA + Style.BRIGHT
-cyan = Fore.CYAN + Style.BRIGHT
 white = Fore.WHITE + Style.BRIGHT
 
 if __name__ == "__main__":
@@ -32,6 +28,7 @@ if __name__ == "__main__":
     project = "dank.serverbuilder"
     current_version = 2.1
     print(f"\n  {white}> {magenta}Version{white}: {current_version}")
+    os.chdir(os.path.dirname(sys.argv[0]))
 
     # remove old build if exists
 
@@ -56,7 +53,7 @@ if __name__ == "__main__":
         data = requests.get(f"https://github.com/SirDankenstien/{project}/blob/main/{project}.exe?raw=true", allow_redirects=True).content
         open(f"{project}-latest.exe","wb").write(data)
         data = None
-        print(f"\n  {white}> {magenta}Downloaded!\n\n  {magenta}> {magenta}Starting in 5s...")
+        print(f"\n  {white}> {magenta}Downloaded!\n\n  {white}> {magenta}Starting in 5s...")
         time.sleep(5)
         os.system(f"start {project}-latest.exe")
         sys.exit()
