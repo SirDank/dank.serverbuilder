@@ -300,7 +300,7 @@ print(f"\n  {white}> {magenta}Updating {white}server.properties")
 
 # updating server.properties
 
-data = open("server.properties","r").read().replace("motd=A Minecraft Server",f"motd=\\u00A7a---\\u00A76>\\u00A7b\\u00A7l {original_name} \\u00A76<\\u00A7a---")
+data = open("server.properties","r").read().replace("motd=A Minecraft Server",f"motd=\\u00A7a---\\u00A76>\\u00A7b\\u00A7l {original_name} \\u00A76<\\u00A7a---\\u00A7r\\n   \\u00A76\\u00A7l\\u00A7m-----\\u00A79\\u00A78\\u00A7l[\\u00A75 Made with \\u00A7ddank\\u00A7f.\\u00A7dserverbuilder \\u00A78\\u00A7l]\\u00A76\\u00A7l\\u00A7m-----")
 
 if offline == "y":
     data.replace("online-mode=true","online-mode=false")
