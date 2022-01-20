@@ -154,18 +154,18 @@ except:
 os.system(f"explorer.exe \"{name}\"")
 os.chdir(name)
 
-# downlaod & extract dsb_assets.zip from github
+# begin download phase
+
+os.system('cls')
+print(f"\n  {white}> {magenta}Preparing Downloads{white}...")
+
+# download & extract dsb_assets.zip from github
 
 data = requests.get("https://github.com/SirDankenstien/dank.serverbuilder/raw/main/assets/dsb_assets.zip", allow_redirects=True).content
 open("dsb_assets.zip","wb").write(data)
 zipfile.ZipFile(f"dsb_assets.zip", 'r').extractall()
 time.sleep(3)
 os.remove("dsb_assets.zip")
-
-# begin download phase
-
-os.system('cls')
-print(f"\n  {white}> {magenta}Preparing Downloads{white}...")
 
 to_download_urls = []
 to_download_filenames = []
