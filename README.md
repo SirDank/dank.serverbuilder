@@ -1,3 +1,8 @@
+# 🚨 DISCLAIMER 🚨
+
+- This project is being moved into > https://github.com/SirDank/dank.tool (coming-soon)
+- All updates will be available on the same, thus this repo will not receive updates
+
 Short URL > http://bit.ly/dank-serverbuilder
 
 Direct Download > http://bit.ly/dank-serverbuilder-direct2
